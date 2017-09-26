@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/fragment_area"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_bar_bg"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/home_btn"
+            android:text="@string/bottom_bar_home"
+            android:textSize="@dimen/icons_title_text_size"
+            android:button="@null"
+            android:drawableTop="@drawable/home_button_pressed"
+            android:drawablePadding="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/explore_btn"
+            android:text="@string/bottom_bar_explore"
+            android:textSize="@dimen/icons_title_text_size"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:button="@null"
+            android:drawableTop="@drawable/collection_button_pressed"
+            android:drawablePadding="5dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/mine_btn"
+            android:text="@string/bottom_bar_mine"
+            android:textSize="@dimen/icons_title_text_size"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:button="@null"
+            android:drawableTop="@drawable/account_button_pressed"
+            android:drawablePadding="5dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </RadioGroup>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="indicator">
+        <attr name="default_src" format="reference" />
+        <attr name="focus_src" format="reference" />
+    </declare-styleable>
+</resources>
