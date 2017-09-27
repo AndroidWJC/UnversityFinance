@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,12 +15,9 @@ import android.widget.ViewFlipper;
 import com.bumptech.glide.Glide;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.R;
-import com.hqj.universityfinance.home.NewsActivity;
-import com.hqj.universityfinance.home.NoticeAdapter;
 import com.hqj.universityfinance.home.NoticeListActivity;
+import com.hqj.universityfinance.home.WebViewActivity;
 import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
@@ -30,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +44,11 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
     private Banner mBanner;
     private ViewFlipper mViewFilpper;
     private SwipeRefreshLayout mRefreshLayout;
-    private NoticeAdapter mAdapter;
     private ListView mListView;
     private Context mContext;
+    private NoticeListActivity mNLActivity;
 
-    private static int mType = 0;
+    private int mType = 0;
 
     public MyAsyncTask(int type, Banner banner, Context context) {
         mType = type;
@@ -68,11 +62,10 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
         mContext = context;
     }
 
-    public MyAsyncTask(int type, ListView listView, NoticeAdapter adapter, Context context) {
+    public MyAsyncTask(int type, ListView listView, Context context) {
         mType = type;
         mListView = listView;
-        mAdapter = adapter;
-        mContext = context;
+        mNLActivity = (NoticeListActivity) context;
     }
 
     @Override
@@ -120,7 +113,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
                 mBanner.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Intent intent = new Intent(mContext, NewsActivity.class);
+                        Intent intent = new Intent(mContext, WebViewActivity.class);
                         intent.setData(Uri.parse(urlList.get(position)));
                         mContext.startActivity(intent);
                     }
@@ -140,8 +133,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
                 break;
 
             case ConfigUtils.TYPE_NOTICE_LIST:
-                mAdapter = new NoticeAdapter(beenList, mContext);
-                mListView.setAdapter(mAdapter);
+                mNLActivity.setAdapter(beenList);
         }
     }
 
@@ -151,7 +143,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
         view.append("\n");
         view.append(content.getTitle2());
         view.setTextColor(mContext.getResources().getColor(R.color.color_text));
-        view.setGravity(Gravity.CENTER);
+        view.setGravity(Gravity.CENTER_VERTICAL);
 
         return view;
     }

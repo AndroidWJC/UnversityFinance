@@ -15,6 +15,7 @@
     <string name="title_exit">退出当前账号</string>
     <string name="title_app_info">关于师大资助</string>
     <string name="title_notice_list">通知列表</string>
+    <string name="toast_refresh_succeed">刷新成功</string>
 
     <string name="loading_text">拼命加载中&#8230;</string>
     <string name="loading_text_login">登录中&#8230;</string>

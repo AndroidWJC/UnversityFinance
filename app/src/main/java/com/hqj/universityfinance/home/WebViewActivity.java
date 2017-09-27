@@ -16,7 +16,7 @@ import com.hqj.universityfinance.R;
  * Created by wang on 17-9-13.
  */
 
-public class NewsActivity extends Activity {
+public class WebViewActivity extends Activity {
 
     private WebView mWebView;
     private ProgressDialog mDialog;

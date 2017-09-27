@@ -21,12 +21,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_setting);
 
         intView();
-
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append(", ").append(R.string.app_name);
-
-
     }
 
     private void intView() {

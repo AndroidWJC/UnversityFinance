@@ -33,7 +33,7 @@ public class NoticeAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int i) {
+    public BannerBean getItem(int i) {
         return mList.get(i);
     }
 
@@ -57,7 +57,7 @@ public class NoticeAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.textView.setText(mList.get(i).getTitle());
+        viewHolder.textView.setText(getItem(i).getTitle());
 
         return view;
     }

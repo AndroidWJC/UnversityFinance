@@ -4,25 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/welcome_logo"
-        android:src="@drawable/logo_shida"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
-
     <TextView
         android:id="@+id/welcome"
         android:text="@string/welcome_speech"
         android:textColor="@android:color/white"
         android:textSize="@dimen/top_bar_title_text_size"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/welcome_logo"
         android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/welcome_logo"
+        android:src="@drawable/logo3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/welcome"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+
+
 
 
 </RelativeLayout>
