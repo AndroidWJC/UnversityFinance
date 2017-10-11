@@ -15,6 +15,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="list_item_base">
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+        <item name="android:background">@drawable/list_item_bg</item>
+        <item name="android:padding">@dimen/list_item_margin</item>
+    </style>
+
     <style name="list_item">
         <item name="android:textColor">@color/color_text</item>
         <item name="android:textSize">@dimen/list_item_text_size</item>
@@ -25,5 +32,9 @@
         <item name="android:padding">@dimen/list_item_margin</item>
     </style>
 
+    <style name="list_item_info" parent="list_item_base">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:background">@null</item>
+    </style>
 
 </resources>

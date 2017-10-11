@@ -31,6 +31,7 @@ public class HttpConnectUtils {
                             .url(url)
                             .build();
                     Response response = client.newCall(request).execute();
+
                     final String responseData = response.body().string();
                     Log.i("wangjuncheng", "responseData = "+responseData);
                     if (listener != null) {

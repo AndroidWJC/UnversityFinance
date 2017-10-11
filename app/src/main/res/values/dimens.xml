@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="top_bar_title_text_size">18sp</dimen>
+    <dimen name="top_bar_title_text_size">20sp</dimen>
 
     <dimen name="page_indicator_padding_left">12dp</dimen>
 
@@ -26,4 +26,6 @@
 
     <dimen name="btn_in_edittext_interval">5dp</dimen>
     <dimen name="btn_in_edittext_width">24dp</dimen>
+
+    <dimen name="user_name_text_size">22sp</dimen>
 </resources>

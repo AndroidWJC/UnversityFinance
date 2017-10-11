@@ -17,16 +17,13 @@ import com.hqj.universityfinance.explore.ExploreFragment;
 import com.hqj.universityfinance.home.HomeFragment;
 import com.hqj.universityfinance.mine.MineFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivity";
 
     private static final String HOME_PAGE_TAG = "homeFragment";
     private static final String EXPLORE_PAGE_TAG = "exploreFragment";
     private static final String MINE_PAGE_TAG = "mineFragment";
-
-    private ActionBar mActionBar;
-    private TextView mActionBarTitle;
 
     private RadioButton mHomeBtn;
     private RadioButton mExploreBtn;
@@ -68,13 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         mRadioGroup.check(R.id.home_btn);
-
-        mActionBar = getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setCustomView(R.layout.actionbar_custom_view);
-            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            mActionBarTitle = (TextView) mActionBar.getCustomView().findViewById(R.id.action_bar_title1);
-        }
     }
 
     @Override
@@ -97,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showFragment(String tag) {
         if (mCurrentPageTag.equals(tag)) {
+            Log.d(TAG, "showFragment: return");
             return;
         }
 
@@ -144,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void hidePreFragment(FragmentTransaction transaction) {
+        Log.d(TAG, "hidePreFragment: mCurrentPageTag = "+mCurrentPageTag);
         switch (mCurrentPageTag) {
             case HOME_PAGE_TAG:
                 transaction.hide(mHomeFragment);
@@ -162,19 +154,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mCurrentPageTag.equals(HOME_PAGE_TAG)) {
-            finish();
-        }
-        int backStackCount = mFragmentManager.getBackStackEntryCount();
-        if (backStackCount > 1) {
-            while (mFragmentManager.getBackStackEntryCount() > 1) {
-                mFragmentManager.popBackStackImmediate();
-                mRadioGroup.check(R.id.home_btn);
-            }
-        } else {
-            finish();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (mCurrentPageTag.equals(HOME_PAGE_TAG)) {
+//            finish();
+//        }
+//        int backStackCount = mFragmentManager.getBackStackEntryCount();
+//        if (backStackCount > 1) {
+//            while (mFragmentManager.getBackStackEntryCount() > 1) {
+//                mFragmentManager.popBackStackImmediate();
+//                mRadioGroup.check(R.id.home_btn);
+//                showFragment(HOME_PAGE_TAG);
+//            }
+//        } else {
+//            finish();
+//        }
+//    }
 }

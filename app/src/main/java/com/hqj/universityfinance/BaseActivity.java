@@ -23,7 +23,7 @@ public class BaseActivity extends AppCompatActivity {
         if (mActionBar != null) {
             mActionBar.setCustomView(R.layout.actionbar_custom_view);
             mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            mActionBarTitle = (TextView) mActionBar.getCustomView().findViewById(R.id.action_bar_title1);
+            mActionBarTitle = (TextView) mActionBar.getCustomView().findViewById(R.id.action_bar_title);
         }
     }
 }

@@ -8,8 +8,15 @@ import com.hqj.universityfinance.R;
 
 public class ConfigUtils {
 
+    public static final boolean DEBUG = true;
 
-    public final static String SERVER_URL = "http://172.20.3.204:8080/WebConectTest/ServletTest";
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "UniversityFinance.db";
+    public static final String TABLE_STUDENT = "student_info";
+
+    public static final String LOGIN_PASS = "{";
+
+    public static final String SERVER_URL = "http://172.20.3.204:8080/WebConectTest/ServletTest";
     public static final String NEWS_JSON_URL =
             "http://172.20.3.204:8080/WebConectTest/json/banner_data.json";
     public static final String NOTICE_JSON_URL =

@@ -3,15 +3,22 @@ package com.hqj.universityfinance.mine;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.utils.ConfigUtils;
+import com.hqj.universityfinance.utils.DatabaseUtils;
+import com.hqj.universityfinance.utils.Utils;
 
 /**
  * Created by wang on 17-9-12.
@@ -19,18 +26,29 @@ import com.hqj.universityfinance.R;
 
 public class MineFragment extends Fragment implements View.OnClickListener{
 
-    TextView mMyApplyTV;
-    TextView mMessageTV;
-    TextView mHelpTV;
-    TextView mSettingTV;
-    LinearLayout mStudentInfo;
+    private TextView mMyApplyTV;
+    private TextView mMessageTV;
+    private TextView mHelpTV;
+    private TextView mSettingTV;
+    private TextView mUserNameTV;
+    private TextView mUserIdTV;
+    private ImageView mUserPhotoIv;
+
+    private LinearLayout mStudentInfo;
 
     private Context mContext;
+
+    private DatabaseUtils mdbHelper;
+    private SQLiteDatabase mDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mContext = getActivity();
+
+        mdbHelper = new DatabaseUtils(mContext, ConfigUtils.DATABASE_NAME, ConfigUtils.DATABASE_VERSION);
+        mDB = mdbHelper.getReadableDatabase();
+
         View view = inflater.inflate(R.layout.mine_fragment, container, false);
         initView(view);
 
@@ -48,14 +66,29 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         mSettingTV.setOnClickListener(this);
         mStudentInfo = (LinearLayout) parent.findViewById(R.id.student_info);
         mStudentInfo.setOnClickListener(this);
+        mUserNameTV = (TextView) parent.findViewById(R.id.user_name);
+        mUserIdTV = (TextView) parent.findViewById(R.id.user_id);
+        mUserPhotoIv = (ImageView) parent.findViewById(R.id.user_photo);
+
+        String userId = Utils.getStringFromSharedPreferences(mContext, "account");
+        Cursor cursor = mDB.rawQuery("select s_name, s_photo from student_info where s_id=?",
+                new String[]{userId});
+        if (cursor.moveToFirst()) {
+            mUserIdTV.setText(userId);
+            mUserNameTV.setText(cursor.getString(cursor.getColumnIndex("s_name")));
+            Glide.with(mContext).load(cursor.getString(cursor.getColumnIndex("s_photo"))).into(mUserPhotoIv);
+        }
+
+        cursor.close();
     }
 
     @Override
     public void onClick(View view) {
         Intent intent;
-
         switch (view.getId()) {
             case R.id.student_info:
+                intent = new Intent(mContext, MyInfoActivity.class);
+                mContext.startActivity(intent);
                 break;
 
             case R.id.my_apply_tv:

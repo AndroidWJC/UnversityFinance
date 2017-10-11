@@ -163,7 +163,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG, "getJSONDataByHttp: result = "+result);
         return result;
     }
 

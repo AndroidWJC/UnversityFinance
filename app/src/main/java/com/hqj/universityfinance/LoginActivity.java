@@ -1,6 +1,9 @@
 package com.hqj.universityfinance;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +12,13 @@ import android.widget.TextView;
 
 import com.hqj.universityfinance.customview.ClearEditText;
 import com.hqj.universityfinance.utils.ConfigUtils;
+import com.hqj.universityfinance.utils.DatabaseUtils;
 import com.hqj.universityfinance.utils.HttpCallbackListener;
 import com.hqj.universityfinance.utils.HttpConnectUtils;
 import com.hqj.universityfinance.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -27,12 +34,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private TextView mForgetPasswordTv;
     private Button mLoginBtn;
 
+    private DatabaseUtils mdbHelper;
+    private SQLiteDatabase mDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         initView();
+
+        mdbHelper = new DatabaseUtils(this, ConfigUtils.DATABASE_NAME, ConfigUtils.DATABASE_VERSION);
+        mDB = mdbHelper.getWritableDatabase();
     }
 
     private void initView() {
@@ -67,9 +80,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                                 Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
                             } else if (response.equals("wrong")) {
                                 Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
-                            } else if (response.equals("right")) {
+                            } else if (response.startsWith(ConfigUtils.LOGIN_PASS)) {
                                 Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
                                 Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
+                                saveDataToDatabase(response);
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 LoginActivity.this.startActivity(intent);
                                 finish(); //该界面不加入回退栈中
@@ -101,5 +116,39 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
                 break;
         }
+    }
+
+    private boolean saveDataToDatabase(String jsonData) {
+        Cursor cursor = mDB.rawQuery("select s_password from "+ConfigUtils.TABLE_STUDENT+" "+"where s_id=?",
+                new String[]{mAccountEt.getText().toString()});
+        if (cursor.moveToFirst()) {
+            return false;
+        }
+        cursor.close();
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            ContentValues values = new ContentValues();
+            values.put("s_id", jsonObject.getInt("s_id"));
+            values.put("s_password", jsonObject.getString("s_password"));
+            values.put("s_status", jsonObject.getInt("s_status"));
+            values.put("s_id_card", jsonObject.getString("s_id_card"));
+            values.put("s_name", jsonObject.getString("s_name"));
+            values.put("s_sex", jsonObject.getString("s_sex"));
+            values.put("s_political_status", jsonObject.getString("s_political_status"));
+            values.put("s_college", jsonObject.getString("s_college"));
+            values.put("s_start_year", jsonObject.getInt("s_start_year"));
+            values.put("s_continue_years", jsonObject.getInt("s_continue_years"));
+            values.put("s_class", jsonObject.getString("s_class"));
+            values.put("s_phone", jsonObject.getString("s_phone"));
+            values.put("s_photo", jsonObject.getString("s_photo"));
+            mDB.insert(ConfigUtils.TABLE_STUDENT, null, values);
+            Log.d(TAG, "onLoadSuccess: s_id = "+jsonObject.getInt("s_id")
+                    +", s_password = "+jsonObject.getString("s_password"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 }

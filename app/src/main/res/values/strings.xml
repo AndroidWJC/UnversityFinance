@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">师大资助</string>
+    <string name="app_name">高校资助</string>
     
-    <string name="welcome_speech">师大资助，助你圆梦！</string>
+    <string name="welcome_speech">高校资助，助你圆梦！</string>
 
     <string name="bottom_bar_home">主页</string>
     <string name="bottom_bar_explore">查询</string>
     <string name="bottom_bar_mine">我的</string>
 
+    <string name="title_my_info">我的信息</string>
     <string name="title_my_apply">我的申请</string>
     <string name="title_message">消息中心</string>
     <string name="title_help">帮助</string>
@@ -28,5 +29,19 @@
 
     <string name="login_failed_net_error">当前网络不太顺畅~</string>
     <string name="toast_login_account_error">账号或密码错误!</string>
+
+    <string-array name="info_item">
+        <item>"姓名"</item>
+        <item>"性别"</item>
+        <item>"学号"</item>
+        <item>"身份证号"</item>
+        <item>"贫困生"</item>
+        <item>"政治面貌"</item>
+        <item>"学院"</item>
+        <item>"班级"</item>
+        <item>"入学时间"</item>
+        <item>"年制"</item>
+        <item>"电话"</item>
+    </string-array>
 
 </resources>

@@ -2,12 +2,17 @@ package com.hqj.universityfinance;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.hqj.universityfinance.utils.ConfigUtils;
+import com.hqj.universityfinance.utils.DatabaseUtils;
 import com.hqj.universityfinance.utils.HttpCallbackListener;
 import com.hqj.universityfinance.utils.HttpConnectUtils;
 import com.hqj.universityfinance.utils.Utils;
@@ -20,13 +25,12 @@ import java.util.HashMap;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    private static final String TAG = "WelcomeActivity";
     private Handler mHandler;
     private Runnable task = null;
 
     private boolean loginDone = false;
     private boolean loginSucceed = false;
-
-    private final String LOGIN_PASS = "right";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     @Override
                     public void onLoadSuccess(String response) {
                         loginDone = true;
-                        loginSucceed = response.equals(LOGIN_PASS);
+                        loginSucceed = response.startsWith(ConfigUtils.LOGIN_PASS);
                     }
 
                     @Override
