@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:id="@+id/student_info"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/list_item_bg_with_press"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,7 +56,7 @@
 
     <TextView
         android:id="@+id/my_apply_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_my_apply"
         android:drawableStart="@drawable/icon_my_apply"
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
 
     <TextView
         android:id="@+id/message_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_message"
         android:drawableStart="@drawable/icon_message"
         android:layout_width="match_parent"
@@ -77,7 +77,7 @@
 
     <TextView
         android:id="@+id/help_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_help"
         android:drawableStart="@drawable/icon_help"
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
 
     <TextView
         android:id="@+id/setting_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_setting"
         android:drawableStart="@drawable/icon_setting"
         android:layout_width="match_parent"

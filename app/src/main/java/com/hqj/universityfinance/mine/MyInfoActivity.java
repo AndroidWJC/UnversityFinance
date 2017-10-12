@@ -56,9 +56,9 @@ public class MyInfoActivity extends BaseActivity {
         adapter = new SimpleAdapter(
                 this,
                 dataList,
-                R.layout.my_info_item,
+                R.layout.left_right_layout_item,
                 new String[]{"title", "content"},
-                new int[]{R.id.title_info, R.id.content_info}
+                new int[]{R.id.title, R.id.content}
         );
 
         return adapter;

@@ -23,20 +23,29 @@ public class DatabaseUtils extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (ConfigUtils.DEBUG) Log.d(TAG, "onCreate: run");
 
+        db.execSQL("create table if not exists "+ ConfigUtils.TABLE_PROJECT +
+                "(z_id TEXT primary key, " +
+                "z_name TEXT, " +
+                "z_status INTEGER, " +
+                "z_sum TEXT, " +
+                "z_time TEXT, " +
+                "z_quota TEXT, " +
+                "z_describe TEXT)");
+
         db.execSQL("create table if not exists "+ ConfigUtils.TABLE_STUDENT +
-                "(s_id integer primary key, " +
-                "s_password text, " +
-                "s_status integer, " +
-                "s_id_card text, " +
-                "s_name text, " +
-                "s_sex text, " +
-                "s_political_status text, " +
-                "s_college text, " +
-                "s_start_year integer, " +
-                "s_continue_years integer, " +
-                "s_class text, " +
-                "s_phone text, " +
-                "s_photo text)");
+                "(s_id INTEGER primary key, " +
+                "s_password TEXT, " +
+                "s_status INTEGER, " +
+                "s_id_card TEXT, " +
+                "s_name TEXT, " +
+                "s_sex TEXT, " +
+                "s_political_status TEXT, " +
+                "s_college TEXT, " +
+                "s_start_year INTEGER, " +
+                "s_continue_years INTEGER, " +
+                "s_class TEXT, " +
+                "s_phone TEXT, " +
+                "s_photo TEXT)");
     }
 
     @Override
@@ -47,6 +56,7 @@ public class DatabaseUtils extends SQLiteOpenHelper {
 
         if (newVersion > 1) {
             db.execSQL("drop table if exists " + ConfigUtils.TABLE_STUDENT);
+            db.execSQL("drop table if exists " + ConfigUtils.TABLE_PROJECT);
             onCreate(db);
         }
 

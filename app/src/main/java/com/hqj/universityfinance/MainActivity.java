@@ -154,20 +154,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (mCurrentPageTag.equals(HOME_PAGE_TAG)) {
-//            finish();
-//        }
-//        int backStackCount = mFragmentManager.getBackStackEntryCount();
-//        if (backStackCount > 1) {
-//            while (mFragmentManager.getBackStackEntryCount() > 1) {
-//                mFragmentManager.popBackStackImmediate();
-//                mRadioGroup.check(R.id.home_btn);
-//                showFragment(HOME_PAGE_TAG);
-//            }
-//        } else {
-//            finish();
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        if (mCurrentPageTag.equals(HOME_PAGE_TAG)) {
+            finish();
+        } else {
+            mRadioGroup.check(R.id.home_btn);
+            showFragment(HOME_PAGE_TAG);
+        }
+    }
 }

@@ -66,6 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 Utils.showLoadingDialog(this, 0, R.string.loading_text_login);
 
                 HashMap<String, String> params = new HashMap<String, String>();
+                params.put("type", ConfigUtils.TYPE_POST_LOGIN);
                 params.put("account", mAccountEt.getText().toString());
                 params.put("password", mPasswordEt.getText().toString());
 
@@ -80,7 +81,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                                 Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
                             } else if (response.equals("wrong")) {
                                 Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
-                            } else if (response.startsWith(ConfigUtils.LOGIN_PASS)) {
+                            } else if (response.startsWith(ConfigUtils.SUCCESSFUL)) {
                                 Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
                                 Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
                                 saveDataToDatabase(response);

@@ -72,6 +72,14 @@ public class Utils {
         mEditor.commit();
     }
 
+    public static void writeToSharedPreferences(Context context, String key, int value) {
+
+        mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        mEditor.putInt(key, value);
+        mEditor.commit();
+    }
+
+
     public static boolean getBooleanFromSharedPreferences(Context context, String key) {
 
         mSP = PreferenceManager.getDefaultSharedPreferences(context);

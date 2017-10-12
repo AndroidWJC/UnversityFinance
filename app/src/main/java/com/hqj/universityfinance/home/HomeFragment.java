@@ -4,19 +4,23 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.MyAsyncTask;
 import com.hqj.universityfinance.customview.PageIndicatorView;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.utils.Utils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -31,9 +35,7 @@ import java.util.Objects;
  * Created by wang on 17-9-12.
  */
 
-public class HomeFragment extends Fragment {
-
-
+public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private Banner mBanner;
     private ViewFlipper mViewFlipper;
@@ -41,6 +43,18 @@ public class HomeFragment extends Fragment {
     private PageIndicatorView mIndicatorView;
     private int mPageCount = 0;
     private Context mContext;
+
+    private static final int POSITION_1 = 0;
+    private static final int POSITION_2 = 1;
+    private static final int POSITION_3 = 2;
+    private static final int POSITION_4 = 3;
+    private static final int POSITION_5 = 4;
+    private static final int POSITION_6 = 5;
+    private static final int POSITION_7 = 6;
+    private static final int POSITION_8 = 7;
+    private static final int POSITION_9 = 8;
+    private static final int POSITION_10 = 9;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -171,9 +185,28 @@ public class HomeFragment extends Fragment {
             gridView.setAdapter(adapt);
             gridView.setNumColumns(ConfigUtils.ITEM_COUNT_X);
             gridView.setVerticalSpacing(verticalSpacing);
+            gridView.setOnItemClickListener(this);
             pageViewList.add(gridView);
         }
 
         return pageViewList;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int realPosition = position + mViewPager.getCurrentItem() * ConfigUtils.ITEMS_MAX_NUM;
+        Utils.showToast(mContext, "position = "+realPosition+", page = "+mViewPager.getCurrentItem());
+
+        switch (realPosition) {
+            case POSITION_1:
+                goToProjectActivity(ProjectIntroduceActivity.class, ConfigUtils.projectIds[realPosition]);
+                break;
+        }
+    }
+
+    private void goToProjectActivity(Class<?> target, String projectId) {
+        Intent intent = new Intent(mContext, target);
+        intent.putExtra("projectId", projectId);
+        startActivity(intent);
     }
 }

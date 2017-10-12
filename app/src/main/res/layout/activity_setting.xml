@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/modify_password_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_modify_password"
         android:drawableStart="@drawable/icon_modify_password"
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/app_tv"
-        style="@style/list_item"
+        style="@style/list_item_arrow"
         android:text="@string/title_app_info"
         android:drawableStart="@drawable/icon_app_info"
         android:layout_width="match_parent"

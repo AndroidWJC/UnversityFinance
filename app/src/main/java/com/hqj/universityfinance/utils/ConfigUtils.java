@@ -10,11 +10,12 @@ public class ConfigUtils {
 
     public static final boolean DEBUG = true;
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "UniversityFinance.db";
     public static final String TABLE_STUDENT = "student_info";
+    public static final String TABLE_PROJECT = "support_project";
 
-    public static final String LOGIN_PASS = "{";
+    public static final String SUCCESSFUL = "{";
 
     public static final String SERVER_URL = "http://172.20.3.204:8080/WebConectTest/ServletTest";
     public static final String NEWS_JSON_URL =
@@ -30,6 +31,9 @@ public class ConfigUtils {
 
     public final static int TYPE_LOGIN_NET_ERROR = 3;
     public final static int TYPE_LOGIN_ACCOUNT_ERROR = 4;
+
+    public final static String TYPE_POST_LOGIN = "L";
+    public final static String TYPE_POST_GET_PROJECT = "P";
 
     public final static int ITEM_COUNT_X = 4;
     public final static int ITEM_COUNT_Y = 2;
@@ -49,11 +53,7 @@ public class ConfigUtils {
             R.drawable.icon_7,
             R.drawable.icon_8,
             R.drawable.icon_9,
-            R.drawable.icon_10,
-            R.drawable.icon_11,
-            R.drawable.icon_12,
-            R.drawable.icon_13,
-            R.drawable.icon_14
+            R.drawable.icon_10
     };
 
     public final static String[] iconTitles = {
@@ -66,10 +66,17 @@ public class ConfigUtils {
             "临时补助",
             "贫困生",
             "开发中",
-            "敬请期待",
-            "开发中",
-            "敬请期待",
-            "开发中",
             "敬请期待"
     };
+
+    public final static String[] projectIds = {
+            "jxj01",
+            "jxj11",
+            "jxj12",
+            "jxj13",
+            "jxj21",
+            "jxj22"
+
+    };
+
 }

@@ -30,6 +30,24 @@
     <string name="login_failed_net_error">当前网络不太顺畅~</string>
     <string name="toast_login_account_error">账号或密码错误!</string>
 
+    <string name="btn_apply">申请</string>
+    <string-array name="project_info_title">
+        <item>"学年："</item>
+        <item>"名额："</item>
+        <item>"金额："</item>
+        <item>"申报时间："</item>
+        <item>"申报条件"</item>
+    </string-array>
+
+    <string-array name="project_info_content_key">
+        <item>"z_school_year"</item>
+        <item>"z_quota"</item>
+        <item>"z_sum"</item>
+        <item>"z_time"</item>
+        <item>"z_describe"</item>
+    </string-array>
+
+
     <string-array name="info_item">
         <item>"姓名"</item>
         <item>"性别"</item>
