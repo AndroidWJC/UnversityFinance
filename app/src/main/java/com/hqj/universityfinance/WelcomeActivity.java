@@ -62,12 +62,12 @@ public class WelcomeActivity extends AppCompatActivity {
         String account = Utils.getStringFromSharedPreferences(this, "account");
         String password = Utils.getStringFromSharedPreferences(this, "password");
 
+        pullProjectDataToDB();
         if (needUserLogin(account, password)) {
-            pullProjectDataToDB();
             waitPullDone();
         } else {
             automaticLogin(account, password);
-            waitLoginDone();
+            waitLoginAndPullDone();
         }
     }
 
@@ -171,11 +171,11 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void waitLoginDone() {
+    private void waitLoginAndPullDone() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (!loginDone) {
+                while (!(loginDone && pullDone)) {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {

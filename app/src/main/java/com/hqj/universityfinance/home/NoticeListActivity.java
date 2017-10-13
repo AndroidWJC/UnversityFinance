@@ -32,7 +32,7 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
 
     private static final String TAG = "NoticeListActivity";
     ListView mListView;
-    NoticeAdapter mAdapter = null;
+    TitleOnlyItemAdapter mAdapter = null;
     SwipeRefreshLayout mRefreshLayout;
     private List<BannerBean> mBeanList;
 
@@ -66,7 +66,7 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
 
     public void setAdapter(List<BannerBean> list) {
         mBeanList = list;
-        mAdapter = new NoticeAdapter(mBeanList, this);
+        mAdapter = new TitleOnlyItemAdapter(mBeanList, this);
         mListView.setAdapter(mAdapter);
     }
 

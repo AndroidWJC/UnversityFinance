@@ -44,16 +44,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private int mPageCount = 0;
     private Context mContext;
 
-    private static final int POSITION_1 = 0;
-    private static final int POSITION_2 = 1;
-    private static final int POSITION_3 = 2;
-    private static final int POSITION_4 = 3;
-    private static final int POSITION_5 = 4;
-    private static final int POSITION_6 = 5;
-    private static final int POSITION_7 = 6;
-    private static final int POSITION_8 = 7;
-    private static final int POSITION_9 = 8;
-    private static final int POSITION_10 = 9;
+    private static final int POSITION_0 = 0;
+    private static final int POSITION_1 = 1;
+    private static final int POSITION_2 = 2;
+    private static final int POSITION_3 = 3;
+    private static final int POSITION_4 = 4;
+    private static final int POSITION_5 = 5;
+    private static final int POSITION_6 = 6;
+    private static final int POSITION_7 = 7;
+    private static final int POSITION_8 = 8;
+    private static final int POSITION_9 = 9;
 
 
     @Override
@@ -198,14 +198,33 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         Utils.showToast(mContext, "position = "+realPosition+", page = "+mViewPager.getCurrentItem());
 
         switch (realPosition) {
+            case POSITION_0:
+            case POSITION_5:
+                goToProjectActivity(ConfigUtils.projectIds[realPosition]);
+                break;
+
             case POSITION_1:
-                goToProjectActivity(ProjectIntroduceActivity.class, ConfigUtils.projectIds[realPosition]);
+            case POSITION_2:
+            case POSITION_3:
+            case POSITION_4:
+            case POSITION_6:
+            case POSITION_7:
+                goToProjectNavigationActivity(ConfigUtils.projectIds[realPosition]);
+                break;
+
+            default:
                 break;
         }
     }
 
-    private void goToProjectActivity(Class<?> target, String projectId) {
-        Intent intent = new Intent(mContext, target);
+    private void goToProjectNavigationActivity(String projectId) {
+        Intent intent = new Intent(mContext, SimilarProjectNavigationActivity.class);
+        intent.putExtra("projectId", projectId);
+        startActivity(intent);
+    }
+
+    private void goToProjectActivity(String projectId) {
+        Intent intent = new Intent(mContext, ProjectIntroduceActivity.class);
         intent.putExtra("projectId", projectId);
         startActivity(intent);
     }

@@ -71,12 +71,14 @@ public class ConfigUtils {
 
     public final static String[] projectIds = {
             "jxj01",
-            "jxj11",
-            "jxj12",
-            "jxj13",
-            "jxj21",
-            "jxj22"
-
+            "jxj1%",
+            "jxj2%",
+            "jxj3%",
+            "jxj4%",
+            "jxj51",
+            "jxj6%",
+            "jxj7%",
+            "jxj81"
     };
 
 }

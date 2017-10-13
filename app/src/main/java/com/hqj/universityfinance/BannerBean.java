@@ -1,6 +1,8 @@
 package com.hqj.universityfinance;
 
 
+import android.view.WindowManager;
+
 /**
  * Created by wang on 17-9-9.
  */

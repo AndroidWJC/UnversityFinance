@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hqj.universityfinance.BannerBean;
+import com.hqj.universityfinance.ProjectBean;
 import com.hqj.universityfinance.R;
 
 import java.util.List;
@@ -17,12 +18,12 @@ import java.util.List;
  * Created by wang on 17-9-22.
  */
 
-public class NoticeAdapter extends BaseAdapter{
+public class TitleOnlyItemAdapter extends BaseAdapter{
 
-    private List<BannerBean> mList;
+    private List<?> mList;
     private Context mContext;
 
-    public NoticeAdapter(List<BannerBean> data, Context context) {
+    public TitleOnlyItemAdapter(List<?> data, Context context) {
         mList = data;
         mContext = context;
     }
@@ -33,7 +34,7 @@ public class NoticeAdapter extends BaseAdapter{
     }
 
     @Override
-    public BannerBean getItem(int i) {
+    public Object getItem(int i) {
         return mList.get(i);
     }
 
@@ -57,12 +58,16 @@ public class NoticeAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.textView.setText(getItem(i).getTitle());
+        if (getItem(i) instanceof BannerBean) {
+            viewHolder.textView.setText(((BannerBean) getItem(i)).getTitle());
+        } else if (getItem(i) instanceof ProjectBean) {
+            viewHolder.textView.setText(((ProjectBean)getItem(i)).getProjectName());
+        }
 
         return view;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
 
         TextView textView;
 
