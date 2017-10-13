@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.LoginActivity;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.utils.ActivityCollector;
 import com.hqj.universityfinance.utils.Utils;
 
 
@@ -38,7 +39,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 Utils.writeToSharedPreferences(this, "password", "");
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-                finish();
+                ActivityCollector.finishAllActivities();
                 break;
         }
     }
