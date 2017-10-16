@@ -28,7 +28,7 @@ public class HttpConnectUtils {
             @Override
             public void run() {
                 try {
-                    OkHttpCgitlient client = new OkHttpClient();
+                    OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url(url)
                             .build();
