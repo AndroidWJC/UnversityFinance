@@ -45,7 +45,8 @@ public class DatabaseUtils extends SQLiteOpenHelper {
                 "s_continue_years INTEGER, " +
                 "s_class TEXT, " +
                 "s_phone TEXT, " +
-                "s_photo TEXT)");
+                "s_photo TEXT," +
+                "s_photo_bytes BLOB)");
     }
 
     @Override

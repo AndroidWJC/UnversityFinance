@@ -20,7 +20,14 @@ import com.hqj.universityfinance.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by wang on 17-9-20.
@@ -72,10 +79,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
                 try {
                     String urlWithInfo = HttpConnectUtils.getURLWithParams(ConfigUtils.SERVER_URL, params);
-                    Log.d(TAG, "onClick: urlWithInfo = "+urlWithInfo);
                     HttpConnectUtils.sendRequestByOKHttp(urlWithInfo, new HttpCallbackListener() {
                         @Override
-                        public void onLoadSuccess(String response) {
+                        public void onLoadSuccess(final String response) {
                             Log.d(TAG, "onLoadSuccess: response = "+response);
                             if (response == null) {
                                 Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
@@ -86,9 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                                 Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
                                 saveDataToDatabase(response);
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                LoginActivity.this.startActivity(intent);
-                                finish(); //该界面不加入回退栈中
+                                succeedToLogin();
                             }
                             Utils.dismissLoadingDialog();
                             Log.d(TAG, "onLoadSuccess: end ");
@@ -114,7 +118,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.forget_password:
 
-
                 break;
         }
     }
@@ -123,12 +126,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         Cursor cursor = mDB.rawQuery("select s_password from "+ConfigUtils.TABLE_STUDENT+" "+"where s_id=?",
                 new String[]{mAccountEt.getText().toString()});
         if (cursor.moveToFirst()) {
-            return false;
+            cursor.close();
+            return true;
         }
-        cursor.close();
 
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
+
             ContentValues values = new ContentValues();
             values.put("s_id", jsonObject.getInt("s_id"));
             values.put("s_password", jsonObject.getString("s_password"));
@@ -143,6 +147,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             values.put("s_class", jsonObject.getString("s_class"));
             values.put("s_phone", jsonObject.getString("s_phone"));
             values.put("s_photo", jsonObject.getString("s_photo"));
+            values.put("s_photo_bytes", getPhotoBytes(jsonObject.getString("s_photo")));
             mDB.insert(ConfigUtils.TABLE_STUDENT, null, values);
             Log.d(TAG, "onLoadSuccess: s_id = "+jsonObject.getInt("s_id")
                     +", s_password = "+jsonObject.getString("s_password"));
@@ -151,5 +156,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
 
         return true;
+    }
+
+    private byte[] getPhotoBytes(String url) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+        try {
+            Response response = client.newCall(request).execute();
+            InputStream inputStream = response.body().byteStream();
+
+            byte[] buffer = new byte[1024];
+            int length = 0;
+
+            while ((length = inputStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outStream.toByteArray();
+    }
+
+    private void succeedToLogin() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }

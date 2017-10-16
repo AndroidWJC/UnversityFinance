@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +74,20 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         mUserPhotoIv = (ImageView) parent.findViewById(R.id.user_photo);
 
         String userId = Utils.getStringFromSharedPreferences(mContext, "account");
-        Cursor cursor = mDB.rawQuery("select s_name, s_photo from student_info where s_id=?",
+        Cursor cursor = mDB.rawQuery("select s_name,s_photo,s_photo_bytes from student_info where s_id=?",
                 new String[]{userId});
         if (cursor.moveToFirst()) {
             mUserIdTV.setText(userId);
             mUserNameTV.setText(cursor.getString(cursor.getColumnIndex("s_name")));
-            Glide.with(mContext).load(cursor.getString(cursor.getColumnIndex("s_photo"))).into(mUserPhotoIv);
+            byte[] bytes;
+            if ((bytes = cursor.getBlob(cursor.getColumnIndex("s_photo_bytes"))) != null) {
+                Log.d("wangjuncheng", "initView: set photo by DB");
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                mUserPhotoIv.setImageBitmap(bitmap);
+            } else {
+                Glide.with(mContext).load(cursor.getString(cursor.getColumnIndex("s_photo"))).into(mUserPhotoIv);
+            }
+
         }
 
         cursor.close();

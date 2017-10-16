@@ -31,7 +31,9 @@
     <string name="toast_login_account_error">账号或密码错误!</string>
 
     <string name="btn_apply">申请</string>
+    <string name="btn_submit">提交申请</string>
     <string name="title_project_list">项目分类</string>
+    <string name="title_application">申请表</string>
 
     <string-array name="project_info_title">
         <item>"学年："</item>

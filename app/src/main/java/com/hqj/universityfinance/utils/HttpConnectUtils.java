@@ -28,7 +28,7 @@ public class HttpConnectUtils {
             @Override
             public void run() {
                 try {
-                    OkHttpClient client = new OkHttpClient();
+                    OkHttpCgitlient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url(url)
                             .build();
@@ -37,21 +37,10 @@ public class HttpConnectUtils {
                     final String responseData = response.body().string();
                     Log.i("wangjuncheng", "responseData = "+responseData);
                     if (listener != null) {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                listener.onLoadSuccess(responseData.trim());
-                            }
-                        });
+                        listener.onLoadSuccess(responseData.trim());
                     }
                 } catch (Exception e) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            listener.onLoadFailed(ConfigUtils.TYPE_LOGIN_NET_ERROR);
-                        }
-                    });
-
+                    listener.onLoadFailed(ConfigUtils.TYPE_LOGIN_NET_ERROR);
                     e.printStackTrace();
                 }
 

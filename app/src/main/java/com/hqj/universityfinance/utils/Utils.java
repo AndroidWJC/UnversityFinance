@@ -3,7 +3,9 @@ package com.hqj.universityfinance.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -16,46 +18,77 @@ public class Utils {
     static SharedPreferences mSP = null;
     static SharedPreferences.Editor mEditor = null;
 
-    public static void showToast(Context context, int resId) {
-        if (context != null) {
-            String msg = context.getResources().getString(resId);
-            showToast(context, msg);
-        }
-    }
+    private static Handler mHandler = new Handler();
 
-    public static void showToast(Context context, String msg) {
-        if (context != null) {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public static void showLoadingDialog(Context context) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setCancelable(false);
-        }
-        mProgressDialog.show();
-    }
-
-    public static void showLoadingDialog(Context context, int titleId, int messageId) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setCancelable(false);
-            if (titleId != 0) {
-                mProgressDialog.setTitle(titleId);
+    public static void showToast(final Context context, final int resId) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (context != null) {
+                    String msg = context.getResources().getString(resId);
+                    showToast(context, msg);
+                }
             }
-            if (messageId != 0) {
-                mProgressDialog.setTitle(messageId);
+        });
+    }
+
+    public static void showToast(final Context context, final String msg) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (context != null) {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                }
             }
-        }
-        mProgressDialog.show();
+        });
+
+    }
+
+    public static void showLoadingDialog(final Context context) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
+                    mProgressDialog.setCancelable(false);
+                }
+                mProgressDialog.show();
+            }
+        });
+
+    }
+
+    public static void showLoadingDialog(final Context context, final int titleId, final int messageId) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
+                    mProgressDialog.setCancelable(false);
+                    if (titleId != 0) {
+                        mProgressDialog.setTitle(titleId);
+                    }
+                    if (messageId != 0) {
+                        mProgressDialog.setTitle(messageId);
+                    }
+                }
+                mProgressDialog.show();
+                Log.d("wangjuncheng", "run: showLoadingDialog end");
+            }
+        });
     }
 
     public static void dismissLoadingDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                    mProgressDialog = null;
+                }
+            }
+        });
+
     }
 
     public static void writeToSharedPreferences(Context context, String key, boolean value) {
