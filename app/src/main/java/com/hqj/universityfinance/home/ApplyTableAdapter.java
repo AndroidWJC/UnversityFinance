@@ -9,31 +9,28 @@ import android.widget.TextView;
 
 import com.hqj.universityfinance.R;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * Created by wang on 17-10-12.
+ * Created by wang on 17-10-17.
  */
 
-public class ProjectIntroduceAdapter extends BaseAdapter {
+public class ApplyTableAdapter extends BaseAdapter {
 
+    private String[] mTitles;
     private Context mContext;
-    private List<Map<String, String>> mDataList;
 
-    public ProjectIntroduceAdapter(Context context, List<Map<String, String>> dataList) {
+    public ApplyTableAdapter(Context context, String[] title) {
         mContext = context;
-        mDataList = dataList;
+        mTitles = title;
     }
 
     @Override
     public int getCount() {
-        return mDataList.size();
+        return mTitles.length;
     }
 
     @Override
-    public Map<String, String> getItem(int i) {
-        return mDataList.get(i);
+    public Object getItem(int i) {
+        return mTitles[i];
     }
 
     @Override
@@ -43,16 +40,12 @@ public class ProjectIntroduceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
+
         View view = null;
         ViewHolder viewHolder = null;
 
         if (convertView == null) {
-            if (i + 1 == getCount()) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.up_down_layout_item, parent, false);
-            } else {
-                view = LayoutInflater.from(mContext).inflate(R.layout.left_right_layout_item, parent, false);
-            }
-
+            view = LayoutInflater.from(mContext).inflate(R.layout.left_right_layout_arrow_item, parent, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
@@ -60,13 +53,12 @@ public class ProjectIntroduceAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.titleTv.setText(getItem(i).get("title"));
-        viewHolder.contentTv.setText(getItem(i).get("content"));
+        viewHolder.titleTv.setText((String) getItem(i));
 
         return view;
     }
 
-    private class ViewHolder {
+     class ViewHolder {
         TextView titleTv;
         TextView contentTv;
 

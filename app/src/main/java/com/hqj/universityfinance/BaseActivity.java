@@ -16,6 +16,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected ActionBar mActionBar;
     protected TextView mActionBarTitle;
+    protected TextView mActionBarRightBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
             mActionBar.setCustomView(R.layout.actionbar_custom_view);
             mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             mActionBarTitle = (TextView) mActionBar.getCustomView().findViewById(R.id.action_bar_title);
+            mActionBarRightBtn = (TextView) mActionBar.getCustomView().findViewById(R.id.right_btn);
         }
     }
 

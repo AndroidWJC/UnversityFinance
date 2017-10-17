@@ -1,5 +1,6 @@
 package com.hqj.universityfinance.home;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -96,7 +97,10 @@ public class ProjectIntroduceActivity extends BaseActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.apply_btn:
-
+                Intent intent = new Intent(this, ApplyTableActivity.class);
+                intent.putExtra("projectId", mProjectId);
+                intent.putExtra("projectName", mProjectName);
+                startActivity(intent);
                 break;
         }
     }

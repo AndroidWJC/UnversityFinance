@@ -26,6 +26,8 @@
         <activity android:name=".home.WebViewActivity"/>
         <activity android:name=".home.ProjectIntroduceActivity" />
         <activity android:name=".home.SimilarProjectNavigationActivity" />
+        <activity android:name=".home.ApplyTableActivity" />
+        <activity android:name=".home.EditTextActivity" />
 
         <activity android:name=".mine.SettingActivity" />
         <activity android:name=".mine.MyInfoActivity" />

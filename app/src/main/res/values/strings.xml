@@ -33,7 +33,12 @@
     <string name="btn_apply">申请</string>
     <string name="btn_submit">提交申请</string>
     <string name="title_project_list">项目分类</string>
-    <string name="title_application">申请表</string>
+    <string name="title_apply_table">申请表</string>
+
+    <string name="dialog_warning">信息尚未保存，确认退出？</string>
+    <string name="btn_save">保存</string>
+    <string name="yes">确认</string>
+    <string name="no">取消</string>
 
     <string-array name="project_info_title">
         <item>"学年："</item>
@@ -65,5 +70,15 @@
         <item>"年制"</item>
         <item>"电话"</item>
     </string-array>
+
+    <string-array name="info_apply_table">
+        <item>"成绩"</item>
+        <item>"荣誉称号"</item>
+        <item>"竞赛科研"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string name="apply_table_name">姓名：</string>
+    <string name="apply_table_id">学号：</string>
 
 </resources>
