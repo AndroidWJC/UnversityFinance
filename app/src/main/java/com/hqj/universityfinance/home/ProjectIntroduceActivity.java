@@ -29,7 +29,6 @@ import java.util.Map;
 public class ProjectIntroduceActivity extends BaseActivity implements View.OnClickListener{
 
     private ListView mListView;
-    private Button mApplyBtn;
 
     private DatabaseUtils mdbHelper;
     private SQLiteDatabase mDB;
@@ -80,12 +79,14 @@ public class ProjectIntroduceActivity extends BaseActivity implements View.OnCli
 
     private void initView() {
         mActionBarTitle.setText(mProjectName);
+        mActionBarRightBtn.setText(R.string.btn_apply);
+        mActionBarRightBtn.setVisibility(View.VISIBLE);
 
-        mApplyBtn = (Button) findViewById(R.id.apply_btn);
         if (mEnabled) {
-            mApplyBtn.setOnClickListener(this);
+            mActionBarRightBtn.setOnClickListener(this);
         } else {
-            mApplyBtn.setEnabled(false);
+            mActionBarRightBtn.setEnabled(false);
+            mActionBarRightBtn.setTextColor(0xffffff);
         }
 
         mListView = (ListView) findViewById(R.id.listview_p_introduce);
@@ -96,7 +97,7 @@ public class ProjectIntroduceActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.apply_btn:
+            case R.id.right_btn:
                 Intent intent = new Intent(this, ApplyTableActivity.class);
                 intent.putExtra("projectId", mProjectId);
                 intent.putExtra("projectName", mProjectName);

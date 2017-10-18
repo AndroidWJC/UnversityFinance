@@ -56,19 +56,6 @@ public class ConfigUtils {
             R.drawable.icon_10
     };
 
-    public final static String[] iconTitles = {
-            "国家奖学金",
-            "校级奖学金",
-            "励志奖学金",
-            "企业奖学金",
-            "勤工俭学",
-            "助学贷款",
-            "临时补助",
-            "贫困生",
-            "开发中",
-            "敬请期待"
-    };
-
     public final static String[] projectIds = {
             "jxj01",
             "jxj1%",

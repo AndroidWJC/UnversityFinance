@@ -31,11 +31,12 @@
     <string name="toast_login_account_error">账号或密码错误!</string>
 
     <string name="btn_apply">申请</string>
-    <string name="btn_submit">提交申请</string>
+    <string name="btn_submit">提交</string>
     <string name="title_project_list">项目分类</string>
     <string name="title_apply_table">申请表</string>
 
     <string name="dialog_warning">信息尚未保存，确认退出？</string>
+    <string name="dialog_confirm">提交后信息将不能修改，确认提交？</string>
     <string name="btn_save">保存</string>
     <string name="yes">确认</string>
     <string name="no">取消</string>
@@ -71,14 +72,46 @@
         <item>"电话"</item>
     </string-array>
 
-    <string-array name="info_apply_table">
+    <string-array name="apply_table_scholarship">
         <item>"成绩"</item>
         <item>"荣誉称号"</item>
         <item>"竞赛科研"</item>
         <item>"申请理由"</item>
     </string-array>
 
+    <string-array name="apply_table_assistance">
+        <item>"成绩"</item>
+        <item>"情况说明"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_loan">
+        <item>"情况说明"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_job">
+        <item>"成绩"</item>
+        <item>"相关技能"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
     <string name="apply_table_name">姓名：</string>
     <string name="apply_table_id">学号：</string>
+    <string name="apply_table_college">学院：</string>
+    <string name="apply_table_class">班级：</string>
+    
+    <string-array name="project_title_array">
+        <item>国家奖学金</item>
+        <item>校级奖学金</item>
+        <item>励志奖学金</item>
+        <item>企业奖学金</item>
+        <item>勤工俭学</item>
+        <item>助学贷款</item>
+        <item>临时补助</item>
+        <item>贫困生</item>
+        <item>开发中</item>
+        <item>敬请期待</item>
+    </string-array>
 
 </resources>

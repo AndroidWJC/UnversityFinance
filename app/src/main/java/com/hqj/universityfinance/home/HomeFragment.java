@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private List<Map<String, Object>> getItemsData() {
         int[] iconIds = ConfigUtils.iconIds;
-        String[] iconTitles = ConfigUtils.iconTitles;
+        String[] iconTitles = mContext.getResources().getStringArray(R.array.project_title_array);
 
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> item = null;

@@ -1,5 +1,7 @@
 package com.hqj.universityfinance.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +26,8 @@ import com.hqj.universityfinance.utils.Utils;
  * Created by wang on 17-10-17.
  */
 
-public class ApplyTableActivity extends BaseActivity implements AdapterView.OnItemClickListener{
+public class ApplyTableActivity extends BaseActivity implements AdapterView.OnItemClickListener,
+        View.OnClickListener {
 
     private ListView mListView;
     private String[] mTitles;
@@ -33,9 +36,15 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     private ImageView mPhotoView;
     private TextView mNameTv;
     private TextView mIdTv;
+    private TextView mCollegeTv;
+    private TextView mClassTv;
     private String mCurrentUserName;
     private String mCurrentUserId;
+    private String mCurrentUserCollege;
+    private String mCurrentUserClass;
     private Bitmap mPhotoBitmap;
+    private String mCurrentProjectId;
+    private String mCurrentProjectName;
 
     private DatabaseUtils mdbHelper;
     private SQLiteDatabase mDB;
@@ -53,16 +62,33 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void initData() {
-        mActionBarTitle.setText(getIntent().getStringExtra("projectName"));
-        mActionBarTitle.append(getResources().getString(R.string.title_apply_table));
+        mCurrentProjectId = getIntent().getStringExtra("projectId");
+        mCurrentProjectName = getIntent().getStringExtra("projectName");
+        if (mCurrentProjectId.startsWith("jxj0")
+                || mCurrentProjectId.startsWith("jxj1")
+                || mCurrentProjectId.startsWith("jxj2")
+                || mCurrentProjectId.startsWith("jxj3")) {
+            mTitles = getResources().getStringArray(R.array.apply_table_scholarship);
+        } else if (mCurrentProjectId.startsWith("jxj4")) {
+            mTitles = getResources().getStringArray(R.array.apply_table_job);
+        } else if (mCurrentProjectId.startsWith("jxj5")) {
+            mTitles = getResources().getStringArray(R.array.apply_table_loan);
+        } else if (mCurrentProjectId.startsWith("jxj6")) {
+            mTitles = getResources().getStringArray(R.array.apply_table_assistance);
+        } else if (mCurrentProjectId.startsWith("jxj7")) {
+            mTitles = getResources().getStringArray(R.array.apply_table_assistance);
+        } else {
+            mTitles = getResources().getStringArray(R.array.apply_table_scholarship);
+        }
 
-        mTitles = getResources().getStringArray(R.array.info_apply_table);
         mContents = new String[mTitles.length];
         mCurrentUserId = Utils.getStringFromSharedPreferences(this, "account");
-        Cursor cursor = mDB.rawQuery("select s_name,s_photo_bytes from " + ConfigUtils.TABLE_STUDENT +
+        Cursor cursor = mDB.rawQuery("select s_name,s_college,s_class,s_photo_bytes from " + ConfigUtils.TABLE_STUDENT +
                 " where s_id=?", new String[]{mCurrentUserId});
         if (cursor.moveToFirst()) {
             mCurrentUserName = cursor.getString(cursor.getColumnIndex("s_name"));
+            mCurrentUserCollege = cursor.getString(cursor.getColumnIndex("s_college"));
+            mCurrentUserClass = cursor.getString(cursor.getColumnIndex("s_class"));
             byte[] data = cursor.getBlob(cursor.getColumnIndex("s_photo_bytes"));
             mPhotoBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         }
@@ -70,6 +96,12 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void initView() {
+        mActionBarTitle.setText(mCurrentProjectName);
+        mActionBarTitle.append(getResources().getString(R.string.title_apply_table));
+        mActionBarRightBtn.setText(R.string.btn_submit);
+        mActionBarRightBtn.setVisibility(View.VISIBLE);
+        mActionBarRightBtn.setOnClickListener(this);
+
         mListView = (ListView) findViewById(R.id.listview_apply_table);
         ApplyTableAdapter adapter = new ApplyTableAdapter(this, mTitles);
         mListView.setAdapter(adapter);
@@ -79,6 +111,10 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         mNameTv.setText(mCurrentUserName);
         mIdTv = (TextView) findViewById(R.id.user_id);
         mIdTv.setText(mCurrentUserId);
+        mCollegeTv = (TextView) findViewById(R.id.user_college);
+        mCollegeTv.setText(mCurrentUserCollege);
+        mClassTv = (TextView) findViewById(R.id.user_class);
+        mClassTv.setText(mCurrentUserClass);
         mPhotoView = (ImageView) findViewById(R.id.user_photo);
         mPhotoView.setImageBitmap(mPhotoBitmap);
     }
@@ -102,5 +138,52 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         intent.putExtra("title", mTitles[position]);
         intent.putExtra("content", mContents[position]);
         startActivityForResult(intent, position);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.right_btn:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle(R.string.dialog_confirm);
+                dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.showLoadingDialog(ApplyTableActivity.this);
+                        submitApplyTable();
+                    }
+                });
+                dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+        }
+    }
+
+    private void submitApplyTable() {
+        Utils.dismissLoadingDialog();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(R.string.dialog_warning);
+        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
