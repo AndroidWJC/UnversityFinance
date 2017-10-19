@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +21,15 @@ import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
+import com.hqj.universityfinance.utils.HttpCallbackListener;
+import com.hqj.universityfinance.utils.HttpConnectUtils;
 import com.hqj.universityfinance.utils.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by wang on 17-10-17.
@@ -32,6 +41,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     private ListView mListView;
     private String[] mTitles;
     private String[] mContents;
+    private String[] mKeys;
 
     private ImageView mPhotoView;
     private TextView mNameTv;
@@ -48,6 +58,17 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
 
     private DatabaseUtils mdbHelper;
     private SQLiteDatabase mDB;
+
+    private final static String KEY_S_ID = "s_id";
+    private final static String KEY_Z_ID = "z_id";
+    private final static String KEY_A_STATUS = "a_status";
+    private final static String KEY_A_SCORE = "a_score";
+    private final static String KEY_A_HONOR = "a_honor";
+    private final static String KEY_A_PRIZE = "a_prize";
+    private final static String KEY_A_REASON = "apply_reason";
+    private final static String KEY_A_TIME = "a_time";
+    private final static String KEY_VERIFY_T_ID = "verify_t_id";
+    private final static String KEY_VERIFY_RESULT = "verify_result";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,7 +186,62 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void submitApplyTable() {
-        Utils.dismissLoadingDialog();
+        long time = System.currentTimeMillis();
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeHms = format.format(date);
+
+        RequestBody requestBody = null;
+        if (mCurrentProjectId.startsWith("jxj0")
+                || mCurrentProjectId.startsWith("jxj1")
+                || mCurrentProjectId.startsWith("jxj2")
+                || mCurrentProjectId.startsWith("jxj3")) {
+            requestBody = new FormBody.Builder()
+                    .add("type", "1")
+                    .add(KEY_S_ID, mCurrentUserId)
+                    .add(KEY_Z_ID, mCurrentProjectId)
+                    .add(KEY_A_STATUS, "0")
+                    .add(KEY_A_SCORE, mContents[0])
+                    .add(KEY_A_HONOR, mContents[1])
+                    .add(KEY_A_PRIZE, mContents[2])
+                    .add(KEY_A_REASON, mContents[3])
+                    .add(KEY_A_TIME, timeHms)
+                    .add(KEY_VERIFY_T_ID, "123456789")
+                    .add(KEY_VERIFY_RESULT, "0")
+                    .build();
+
+        } else if (mCurrentProjectId.startsWith("jxj4")) {
+            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+        } else if (mCurrentProjectId.startsWith("jxj5")) {
+            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+        } else if (mCurrentProjectId.startsWith("jxj6")) {
+            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+        } else if (mCurrentProjectId.startsWith("jxj7")) {
+            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+        } else {
+            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+        }
+
+        HttpConnectUtils.postRequestByOKHttp(ConfigUtils.SERVER_URL, requestBody, new HttpCallbackListener() {
+            @Override
+            public void onLoadSuccess(String response) {
+                if (response == null) {
+                    Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
+                } else if (response.equals(ConfigUtils.ERROR)) {
+                    Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
+                } else if (response.startsWith(ConfigUtils.SUCCESS)) {
+                    Utils.showToast(ApplyTableActivity.this, R.string.title_apply_table_succeed);
+                }
+                Utils.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onLoadFailed(int reason) {
+                Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
+                Utils.dismissLoadingDialog();
+            }
+        });
+
     }
 
     @Override

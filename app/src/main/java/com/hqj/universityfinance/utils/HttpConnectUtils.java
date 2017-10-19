@@ -49,6 +49,36 @@ public class HttpConnectUtils {
 
     }
 
+    public static void postRequestByOKHttp(final String url,
+                                           final RequestBody body,
+                                           final HttpCallbackListener listener) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .post(body)
+                            .build();
+                    Response response = client.newCall(request).execute();
+
+                    final String responseData = response.body().string();
+                    Log.i("wangjuncheng", "responseData = "+responseData);
+                    if (listener != null) {
+                        listener.onLoadSuccess(responseData.trim());
+                    }
+                } catch (Exception e) {
+                    listener.onLoadFailed(ConfigUtils.TYPE_LOGIN_NET_ERROR);
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
+
     public static String getURLWithParams(String address, HashMap<String,String> params) throws UnsupportedEncodingException {
         //设置编码
         final String encode = "UTF-8";

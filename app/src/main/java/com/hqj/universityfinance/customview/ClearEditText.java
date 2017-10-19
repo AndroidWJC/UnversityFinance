@@ -230,7 +230,6 @@ public class ClearEditText extends EditText {
                 if (isPasswordVisible) {
                     isPasswordVisible = false;
                     setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-
                     setSelection(getText().length());
                     invalidate();
                 } else {

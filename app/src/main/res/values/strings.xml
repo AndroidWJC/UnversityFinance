@@ -34,12 +34,14 @@
     <string name="btn_submit">提交</string>
     <string name="title_project_list">项目分类</string>
     <string name="title_apply_table">申请表</string>
+    <string name="title_apply_table_succeed">提交成功</string>
 
     <string name="dialog_warning">信息尚未保存，确认退出？</string>
     <string name="dialog_confirm">提交后信息将不能修改，确认提交？</string>
     <string name="btn_save">保存</string>
     <string name="yes">确认</string>
     <string name="no">取消</string>
+
 
     <string-array name="project_info_title">
         <item>"学年："</item>
@@ -77,6 +79,19 @@
         <item>"荣誉称号"</item>
         <item>"竞赛科研"</item>
         <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_scholarship_key">
+        <item>"s_id"</item>
+        <item>"z_id"</item>
+        <item>"a_status"</item>
+        <item>"a_score"</item>
+        <item>"a_honor"</item>
+        <item>"a_prize"</item>
+        <item>"apply_reason"</item>
+        <item>"a_time"</item>
+        <item>"verify_t_id"</item>
+        <item>"verify_result"</item>
     </string-array>
 
     <string-array name="apply_table_assistance">

@@ -85,7 +85,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             Log.d(TAG, "onLoadSuccess: response = "+response);
                             if (response == null) {
                                 Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
-                            } else if (response.equals("wrong")) {
+                            } else if (response.equals(ConfigUtils.ERROR)) {
                                 Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
                             } else if (response.startsWith(ConfigUtils.SUCCESSFUL)) {
                                 Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());

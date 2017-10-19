@@ -16,6 +16,8 @@ public class ConfigUtils {
     public static final String TABLE_PROJECT = "support_project";
 
     public static final String SUCCESSFUL = "{";
+    public static final String ERROR = "error";
+    public static final String SUCCESS = "success";
 
     public static final String SERVER_URL = "http://172.20.3.204:8080/WebConectTest/ServletTest";
     public static final String NEWS_JSON_URL =
