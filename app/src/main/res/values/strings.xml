@@ -29,6 +29,7 @@
 
     <string name="login_failed_net_error">当前网络不太顺畅~</string>
     <string name="toast_login_account_error">账号或密码错误!</string>
+    <string name="toast_unknown_error">未知错误，请重试！！！</string>
 
     <string name="btn_apply">申请</string>
     <string name="btn_submit">提交</string>
@@ -75,38 +76,29 @@
     </string-array>
 
     <string-array name="apply_table_scholarship">
-        <item>"成绩"</item>
-        <item>"荣誉称号"</item>
+        <item>"成绩(学年绩点)"</item>
+        <item>"任职情况"</item>
+        <item>"个人荣誉"</item>
         <item>"竞赛科研"</item>
         <item>"申请理由"</item>
     </string-array>
 
-    <string-array name="apply_table_scholarship_key">
-        <item>"s_id"</item>
-        <item>"z_id"</item>
-        <item>"a_status"</item>
-        <item>"a_score"</item>
-        <item>"a_honor"</item>
-        <item>"a_prize"</item>
-        <item>"apply_reason"</item>
-        <item>"a_time"</item>
-        <item>"verify_t_id"</item>
-        <item>"verify_result"</item>
-    </string-array>
-
     <string-array name="apply_table_assistance">
-        <item>"成绩"</item>
+        <item>"成绩(学年绩点)"</item>
+        <item>"任职情况"</item>
+        <item>"个人荣誉"</item>
+        <item>"竞赛科研"</item>
         <item>"情况说明"</item>
         <item>"申请理由"</item>
     </string-array>
 
     <string-array name="apply_table_loan">
+        <item>"贷款金额"</item>
         <item>"情况说明"</item>
-        <item>"申请理由"</item>
     </string-array>
 
     <string-array name="apply_table_job">
-        <item>"成绩"</item>
+        <item>"成绩(学年绩点)"</item>
         <item>"相关技能"</item>
         <item>"申请理由"</item>
     </string-array>
@@ -115,6 +107,7 @@
     <string name="apply_table_id">学号：</string>
     <string name="apply_table_college">学院：</string>
     <string name="apply_table_class">班级：</string>
+    <string name="warring_can_not_null">不能为空，若无内容，请填写无</string>
     
     <string-array name="project_title_array">
         <item>国家奖学金</item>

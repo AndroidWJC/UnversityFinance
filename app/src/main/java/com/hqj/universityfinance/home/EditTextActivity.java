@@ -32,7 +32,11 @@ public class EditTextActivity extends BaseActivity implements View.OnClickListen
 
     private void initView() {
         mEditText = (EditText) findViewById(R.id.edit_content);
-        mEditText.setText(getIntent().getStringExtra("content"));
+        String content = getIntent().getStringExtra("content");
+        if (content != null) {
+            mEditText.setText(content);
+            mEditText.setSelection(content.length());
+        }
 
         mActionBarTitle.setText(getIntent().getStringExtra("title"));
         mActionBarRightBtn.setVisibility(View.VISIBLE);

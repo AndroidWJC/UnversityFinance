@@ -25,8 +25,12 @@ import com.hqj.universityfinance.utils.HttpCallbackListener;
 import com.hqj.universityfinance.utils.HttpConnectUtils;
 import com.hqj.universityfinance.utils.Utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -63,12 +67,16 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     private final static String KEY_Z_ID = "z_id";
     private final static String KEY_A_STATUS = "a_status";
     private final static String KEY_A_SCORE = "a_score";
+    private final static String KEY_A_JOB = "a_job";
     private final static String KEY_A_HONOR = "a_honor";
     private final static String KEY_A_PRIZE = "a_prize";
     private final static String KEY_A_REASON = "apply_reason";
     private final static String KEY_A_TIME = "a_time";
     private final static String KEY_VERIFY_T_ID = "verify_t_id";
     private final static String KEY_VERIFY_RESULT = "verify_result";
+    private final static String KEY_A_SITUATION = "a_situation";
+    private final static String KEY_A_LOAN_SUM = "a_loan_sum";
+    private final static String KEY_A_SKILL = "a_skill";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -186,43 +194,73 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void submitApplyTable() {
+
+        if (checkSomeIsNull()){
+            Utils.dismissLoadingDialog();
+            return;
+        }
+
         long time = System.currentTimeMillis();
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timeHms = format.format(date);
 
-        RequestBody requestBody = null;
+        FormBody.Builder builder = new FormBody.Builder();
+        Map<String, String> data = new HashMap<>();
+
+        builder.add("type", "1")
+                .add(KEY_S_ID, mCurrentUserId)
+                .add(KEY_Z_ID, mCurrentProjectId)
+                .add(KEY_A_STATUS, "0")
+                .add(KEY_A_TIME, timeHms)
+                .add(KEY_VERIFY_T_ID, "123456789")
+                .add(KEY_VERIFY_RESULT, "0");
+
         if (mCurrentProjectId.startsWith("jxj0")
                 || mCurrentProjectId.startsWith("jxj1")
                 || mCurrentProjectId.startsWith("jxj2")
                 || mCurrentProjectId.startsWith("jxj3")) {
-            requestBody = new FormBody.Builder()
-                    .add("type", "1")
-                    .add(KEY_S_ID, mCurrentUserId)
-                    .add(KEY_Z_ID, mCurrentProjectId)
-                    .add(KEY_A_STATUS, "0")
-                    .add(KEY_A_SCORE, mContents[0])
-                    .add(KEY_A_HONOR, mContents[1])
-                    .add(KEY_A_PRIZE, mContents[2])
-                    .add(KEY_A_REASON, mContents[3])
-                    .add(KEY_A_TIME, timeHms)
-                    .add(KEY_VERIFY_T_ID, "123456789")
-                    .add(KEY_VERIFY_RESULT, "0")
-                    .build();
+
+            try {
+                builder.add(KEY_A_SCORE, mContents[0])
+                        .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
+                        .addEncoded(KEY_A_HONOR, URLEncoder.encode(mContents[2], "UTF-8"))
+                        .addEncoded(KEY_A_PRIZE, URLEncoder.encode(mContents[3], "UTF-8"))
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[4], "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
         } else if (mCurrentProjectId.startsWith("jxj4")) {
-            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+            builder.add(KEY_A_SCORE, mContents[0])
+                    .add(KEY_A_SKILL, mContents[1])
+                    .add(KEY_A_REASON, mContents[2]);
+
         } else if (mCurrentProjectId.startsWith("jxj5")) {
-            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+            builder.add(KEY_A_LOAN_SUM, mContents[0])
+                    .add(KEY_A_SITUATION, mContents[2]);
+
         } else if (mCurrentProjectId.startsWith("jxj6")) {
-            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+            builder.add(KEY_A_SCORE, mContents[0])
+                    .add(KEY_A_JOB, mContents[1])
+                    .add(KEY_A_HONOR, mContents[2])
+                    .add(KEY_A_PRIZE, mContents[3])
+                    .add(KEY_A_SITUATION, mContents[4])
+                    .add(KEY_A_REASON, mContents[5]);
         } else if (mCurrentProjectId.startsWith("jxj7")) {
-            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+            builder.add(KEY_A_SCORE, mContents[0])
+                    .add(KEY_A_JOB, mContents[1])
+                    .add(KEY_A_HONOR, mContents[2])
+                    .add(KEY_A_PRIZE, mContents[3])
+                    .add(KEY_A_SITUATION, mContents[4])
+                    .add(KEY_A_REASON, mContents[5]);
         } else {
-            mKeys = getResources().getStringArray(R.array.apply_table_scholarship_key);
+            Utils.showToast(ApplyTableActivity.this, R.string.toast_unknown_error);
+            Utils.dismissLoadingDialog();
+            return;
         }
 
-        HttpConnectUtils.postRequestByOKHttp(ConfigUtils.SERVER_URL, requestBody, new HttpCallbackListener() {
+        HttpConnectUtils.postRequestByOKHttp(ConfigUtils.SERVER_URL, builder, new HttpCallbackListener() {
             @Override
             public void onLoadSuccess(String response) {
                 if (response == null) {
@@ -231,6 +269,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                     Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
                 } else if (response.startsWith(ConfigUtils.SUCCESS)) {
                     Utils.showToast(ApplyTableActivity.this, R.string.title_apply_table_succeed);
+                    finish();
                 }
                 Utils.dismissLoadingDialog();
             }
@@ -241,7 +280,17 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                 Utils.dismissLoadingDialog();
             }
         });
+    }
 
+    private boolean checkSomeIsNull() {
+        for (int i=0;i<mContents.length;i++) {
+            if (mContents[i] == null || mContents[i].trim().equals("")) {
+                String warringText = getResources().getString(R.string.warring_can_not_null);
+                Utils.showToast(this, mTitles[i] + warringText);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -50,7 +50,7 @@ public class HttpConnectUtils {
     }
 
     public static void postRequestByOKHttp(final String url,
-                                           final RequestBody body,
+                                           final FormBody.Builder builder,
                                            final HttpCallbackListener listener) {
 
         new Thread(new Runnable() {
@@ -60,7 +60,7 @@ public class HttpConnectUtils {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url(url)
-                            .post(body)
+                            .post(builder.build())
                             .build();
                     Response response = client.newCall(request).execute();
 
