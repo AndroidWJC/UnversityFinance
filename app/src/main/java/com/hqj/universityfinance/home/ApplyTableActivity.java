@@ -232,28 +232,45 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
             }
 
         } else if (mCurrentProjectId.startsWith("jxj4")) {
-            builder.add(KEY_A_SCORE, mContents[0])
-                    .add(KEY_A_SKILL, mContents[1])
-                    .add(KEY_A_REASON, mContents[2]);
+            try {
+                builder.add(KEY_A_SCORE, URLEncoder.encode(mContents[0], "UTF-8"))
+                        .addEncoded(KEY_A_SKILL, URLEncoder.encode(mContents[1], "UTF-8"))
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[2], "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
         } else if (mCurrentProjectId.startsWith("jxj5")) {
-            builder.add(KEY_A_LOAN_SUM, mContents[0])
-                    .add(KEY_A_SITUATION, mContents[2]);
+
+            try {
+                builder.addEncoded(KEY_A_LOAN_SUM, URLEncoder.encode(mContents[0], "UTF-8"))
+                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[1], "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
         } else if (mCurrentProjectId.startsWith("jxj6")) {
-            builder.add(KEY_A_SCORE, mContents[0])
-                    .add(KEY_A_JOB, mContents[1])
-                    .add(KEY_A_HONOR, mContents[2])
-                    .add(KEY_A_PRIZE, mContents[3])
-                    .add(KEY_A_SITUATION, mContents[4])
-                    .add(KEY_A_REASON, mContents[5]);
+            try {
+                builder.add(KEY_A_SCORE, URLEncoder.encode(mContents[0], "UTF-8"))
+                        .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
+                        .addEncoded(KEY_A_HONOR, URLEncoder.encode(mContents[2], "UTF-8"))
+                        .addEncoded(KEY_A_PRIZE, URLEncoder.encode(mContents[3], "UTF-8"))
+                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[4], "UTF-8"))
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[5], "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         } else if (mCurrentProjectId.startsWith("jxj7")) {
-            builder.add(KEY_A_SCORE, mContents[0])
-                    .add(KEY_A_JOB, mContents[1])
-                    .add(KEY_A_HONOR, mContents[2])
-                    .add(KEY_A_PRIZE, mContents[3])
-                    .add(KEY_A_SITUATION, mContents[4])
-                    .add(KEY_A_REASON, mContents[5]);
+            try {
+                builder.add(KEY_A_SCORE, URLEncoder.encode(mContents[0], "UTF-8"))
+                        .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
+                        .addEncoded(KEY_A_HONOR, URLEncoder.encode(mContents[2], "UTF-8"))
+                        .addEncoded(KEY_A_PRIZE, URLEncoder.encode(mContents[3], "UTF-8"))
+                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[4], "UTF-8"))
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[5], "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         } else {
             Utils.showToast(ApplyTableActivity.this, R.string.toast_unknown_error);
             Utils.dismissLoadingDialog();
