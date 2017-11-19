@@ -87,7 +87,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             } else {
                 Glide.with(mContext).load(cursor.getString(cursor.getColumnIndex("s_photo"))).into(mUserPhotoIv);
             }
-
         }
 
         cursor.close();
@@ -103,6 +102,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.my_apply_tv:
+                intent = new Intent(mContext, MyApplyActivity.class);
+                mContext.startActivity(intent);
                 break;
 
             case R.id.message_tv:

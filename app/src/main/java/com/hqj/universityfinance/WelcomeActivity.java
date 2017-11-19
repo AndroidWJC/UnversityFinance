@@ -104,6 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean saveDataToDB(String jsonData) {
         JSONObject object = null;
         JSONArray array = null;
+        Log.d(TAG, "saveDataToDB: jsonData = "+jsonData);
 
         try {
             object = new JSONObject(jsonData);

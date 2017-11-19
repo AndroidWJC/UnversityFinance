@@ -32,6 +32,7 @@
         <activity android:name=".mine.SettingActivity" />
         <activity android:name=".mine.MyInfoActivity" />
         <activity android:name=".mine.MyApplyActivity" />
+        <activity android:name=".mine.ApplyPreviewActivity" />
     </application>
 
 </manifest>

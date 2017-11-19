@@ -77,7 +77,7 @@
 
     <string-array name="apply_table_scholarship">
         <item>"成绩(学年绩点)"</item>
-        <item>"任职情况"</item>
+        <item>"学生工作"</item>
         <item>"个人荣誉"</item>
         <item>"竞赛科研"</item>
         <item>"申请理由"</item>
@@ -88,18 +88,17 @@
         <item>"任职情况"</item>
         <item>"个人荣誉"</item>
         <item>"竞赛科研"</item>
-        <item>"情况说明"</item>
         <item>"申请理由"</item>
     </string-array>
 
     <string-array name="apply_table_loan">
         <item>"贷款金额"</item>
-        <item>"情况说明"</item>
+        <item>"申请理由"</item>
     </string-array>
 
     <string-array name="apply_table_job">
         <item>"成绩(学年绩点)"</item>
-        <item>"相关技能"</item>
+        <item>"学生工作"</item>
         <item>"申请理由"</item>
     </string-array>
 
@@ -121,5 +120,9 @@
         <item>开发中</item>
         <item>敬请期待</item>
     </string-array>
+
+    <string name="status_not_verify">审核中</string>
+    <string name="status_pass">已通过</string>
+    <string name="status_refuse">未通过</string>
 
 </resources>

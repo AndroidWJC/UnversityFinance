@@ -206,7 +206,6 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         String timeHms = format.format(date);
 
         FormBody.Builder builder = new FormBody.Builder();
-        Map<String, String> data = new HashMap<>();
 
         builder.add("type", "1")
                 .add(KEY_S_ID, mCurrentUserId)
@@ -234,7 +233,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         } else if (mCurrentProjectId.startsWith("jxj4")) {
             try {
                 builder.add(KEY_A_SCORE, URLEncoder.encode(mContents[0], "UTF-8"))
-                        .addEncoded(KEY_A_SKILL, URLEncoder.encode(mContents[1], "UTF-8"))
+                        .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
                         .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[2], "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -244,7 +243,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
 
             try {
                 builder.addEncoded(KEY_A_LOAN_SUM, URLEncoder.encode(mContents[0], "UTF-8"))
-                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[1], "UTF-8"));
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[1], "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -255,8 +254,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                         .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
                         .addEncoded(KEY_A_HONOR, URLEncoder.encode(mContents[2], "UTF-8"))
                         .addEncoded(KEY_A_PRIZE, URLEncoder.encode(mContents[3], "UTF-8"))
-                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[4], "UTF-8"))
-                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[5], "UTF-8"));
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[4], "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -266,8 +264,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                         .addEncoded(KEY_A_JOB, URLEncoder.encode(mContents[1], "UTF-8"))
                         .addEncoded(KEY_A_HONOR, URLEncoder.encode(mContents[2], "UTF-8"))
                         .addEncoded(KEY_A_PRIZE, URLEncoder.encode(mContents[3], "UTF-8"))
-                        .addEncoded(KEY_A_SITUATION, URLEncoder.encode(mContents[4], "UTF-8"))
-                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[5], "UTF-8"));
+                        .addEncoded(KEY_A_REASON, URLEncoder.encode(mContents[4], "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
