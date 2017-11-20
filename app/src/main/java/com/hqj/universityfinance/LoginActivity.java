@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hqj.universityfinance.customview.ClearEditText;
+import com.hqj.universityfinance.javabean.StudentInfo;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
 import com.hqj.universityfinance.utils.HttpCallbackListener;
 import com.hqj.universityfinance.utils.HttpConnectUtils;
+import com.hqj.universityfinance.utils.SaveDataService;
 import com.hqj.universityfinance.utils.Utils;
 
 import org.json.JSONException;
@@ -23,8 +25,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -71,114 +77,77 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.login_btn:
                 Utils.showLoadingDialog(this, 0, R.string.loading_text_login);
-
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("type", ConfigUtils.TYPE_POST_LOGIN);
-                params.put("account", mAccountEt.getText().toString());
-                params.put("password", mPasswordEt.getText().toString());
-
-                try {
-                    String urlWithInfo = HttpConnectUtils.getURLWithParams(ConfigUtils.SERVER_URL, params);
-                    HttpConnectUtils.sendRequestByOKHttp(urlWithInfo, new HttpCallbackListener() {
-                        @Override
-                        public void onLoadSuccess(final String response) {
-                            Log.d(TAG, "onLoadSuccess: response = "+response);
-                            if (response == null) {
-                                Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
-                            } else if (response.equals(ConfigUtils.ERROR)) {
-                                Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
-                            } else if (response.startsWith(ConfigUtils.SUCCESSFUL)) {
-                                Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
-                                Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
-                                saveDataToDatabase(response);
-
-                                succeedToLogin();
-                            }
-                            Utils.dismissLoadingDialog();
-                            Log.d(TAG, "onLoadSuccess: end ");
-                        }
-
-                        @Override
-                        public void onLoadFailed(int reason) {
-
-                            Log.d(TAG, "onLoadSuccess: error");
-                            if (reason == ConfigUtils.TYPE_LOGIN_NET_ERROR) {
-                                Utils.showToast(LoginActivity.this, R.string.login_failed_net_error);
-                            } else if (reason == ConfigUtils.TYPE_LOGIN_ACCOUNT_ERROR){
-                                Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
-                            }
-                            Utils.dismissLoadingDialog();
-                        }
-                    });
-                } catch (Exception e) {
-
-                }
-
+                confirmAccount();
                 break;
 
             case R.id.forget_password:
-
                 break;
         }
     }
 
-    private boolean saveDataToDatabase(String jsonData) {
-        Cursor cursor = mDB.rawQuery("select s_password from "+ConfigUtils.TABLE_STUDENT+" "+"where s_id=?",
+    private void confirmAccount() {
+        int account;
+        String password;
+        try {
+            account = Integer.parseInt(mAccountEt.getText().toString());
+            password = mPasswordEt.getText().toString();
+        } catch (Exception e) {
+            Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
+            Utils.dismissLoadingDialog();
+            return;
+        }
+
+        BmobQuery<StudentInfo> query1 = new BmobQuery<>();
+        query1.addWhereEqualTo("id", account);
+
+        BmobQuery<StudentInfo> query2 = new BmobQuery<>();
+        query2.addWhereEqualTo("password", password);
+        Log.d(TAG, "wjc: confirmAccount: " + account + " " + password);
+
+        List<BmobQuery<StudentInfo>> andQuery = new ArrayList<>();
+        andQuery.add(query1);
+        andQuery.add(query2);
+
+        BmobQuery<StudentInfo> query = new BmobQuery<>();
+        query.and(andQuery);
+        query.findObjects(this, new FindListener<StudentInfo>() {
+            @Override
+            public void onSuccess(List<StudentInfo> list) {
+                Log.d(TAG, "wjc: onSuccess: 3 size = "+list.size());
+                Utils.showToast(LoginActivity.this, "login succeed");
+                StudentInfo info = list.get(0);
+                if (info != null) {
+                    Log.d(TAG, "wjc: onSuccess: save begin");
+                    Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
+                    Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
+                    saveDataToDatabase(info);
+
+                    succeedToLogin();
+                    Log.d(TAG, "wjc: onSuccess: save end");
+                }
+                Utils.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d(TAG, "wjc: onError: "+i+" "+s);
+                Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
+                Utils.dismissLoadingDialog();
+            }
+        });
+    }
+
+    private void saveDataToDatabase(StudentInfo info) {
+        Cursor cursor = mDB.rawQuery("select s_password from " + ConfigUtils.TABLE_STUDENT + " " + "where s_id=?",
                 new String[]{mAccountEt.getText().toString()});
         if (cursor.moveToFirst()) {
             cursor.close();
-            return true;
+            return;
         }
 
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-
-            ContentValues values = new ContentValues();
-            values.put("s_id", jsonObject.getInt("s_id"));
-            values.put("s_password", jsonObject.getString("s_password"));
-            values.put("s_status", jsonObject.getInt("s_status"));
-            values.put("s_id_card", jsonObject.getString("s_id_card"));
-            values.put("s_name", jsonObject.getString("s_name"));
-            values.put("s_sex", jsonObject.getString("s_sex"));
-            values.put("s_political_status", jsonObject.getString("s_political_status"));
-            values.put("s_college", jsonObject.getString("s_college"));
-            values.put("s_start_year", jsonObject.getInt("s_start_year"));
-            values.put("s_continue_years", jsonObject.getInt("s_continue_years"));
-            values.put("s_class", jsonObject.getString("s_class"));
-            values.put("s_phone", jsonObject.getString("s_phone"));
-            values.put("s_photo", jsonObject.getString("s_photo"));
-            values.put("s_photo_bytes", getPhotoBytes(jsonObject.getString("s_photo")));
-            mDB.insert(ConfigUtils.TABLE_STUDENT, null, values);
-            Log.d(TAG, "onLoadSuccess: s_id = "+jsonObject.getInt("s_id")
-                    +", s_password = "+jsonObject.getString("s_password"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-    private byte[] getPhotoBytes(String url) {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-
-        try {
-            Response response = client.newCall(request).execute();
-            InputStream inputStream = response.body().byteStream();
-
-            byte[] buffer = new byte[1024];
-            int length = 0;
-
-            while ((length = inputStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, length);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return outStream.toByteArray();
+        Intent intent = new Intent(this, SaveDataService.class);
+        intent.putExtra("data", info);
+        startService(intent);
     }
 
     private void succeedToLogin() {
