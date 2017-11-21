@@ -59,9 +59,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mContext = getActivity();
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+
+        mContext = getActivity();
         initView(view);
+
         new MyAsyncTask(ConfigUtils.TYPE_NEWS, mBanner, mContext).execute(ConfigUtils.NEWS_JSON_URL);
         new MyAsyncTask(ConfigUtils.TYPE_NOTICE, mViewFlipper, mContext).execute(ConfigUtils.NOTICE_JSON_URL);
 
@@ -195,7 +197,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         int realPosition = position + mViewPager.getCurrentItem() * ConfigUtils.ITEMS_MAX_NUM;
-        Utils.showToast(mContext, "position = "+realPosition+", page = "+mViewPager.getCurrentItem());
+        //Utils.showToast(mContext, "position = "+realPosition+", page = "+mViewPager.getCurrentItem());
 
         switch (realPosition) {
             case POSITION_0:

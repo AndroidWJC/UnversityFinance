@@ -10,10 +10,10 @@ public class ConfigUtils {
 
     public static final boolean DEBUG = true;
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "UniversityFinance.db";
     public static final String TABLE_STUDENT = "student_info";
-    public static final String TABLE_PROJECT = "support_project";
+    public static final String TABLE_PROJECT = "project_info";
 
     public static final String SUCCESSFUL = "{";
     public static final String ERROR = "error";

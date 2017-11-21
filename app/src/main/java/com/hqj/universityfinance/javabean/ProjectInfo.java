@@ -1,76 +1,76 @@
 package com.hqj.universityfinance.javabean;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by wang on 17-11-20.
  */
 
-public class ProjectInfo extends BmobObject {
+public class ProjectInfo extends BmobObject implements Serializable{
 
-    private String p_id;
-    private String p_name;
-    private Integer p_status;
-    private Integer p_sum;
-    private String p_time;
-    private String p_quota;
-    private String p_describe;
+    private String z_id;
+    private String z_name;
+    private Integer z_status;
+    private Integer z_sum;
+    private String z_time;
+    private String z_quota;
+    private String z_describe;
 
-    public String getP_name() {
-        return p_name;
+    public String getZ_id() {
+        return z_id;
     }
 
-    public void setP_name(String p_name) {
-        this.p_name = p_name;
+    public void setZ_id(String z_id) {
+        this.z_id = z_id;
     }
 
-    public String getP_id() {
-        return p_id;
+    public String getZ_name() {
+        return z_name;
     }
 
-    public void setP_id(String p_id) {
-        this.p_id = p_id;
+    public void setZ_name(String z_name) {
+        this.z_name = z_name;
     }
 
-    public Integer getP_status() {
-        return p_status;
+    public Integer getZ_status() {
+        return z_status;
     }
 
-    public void setP_status(Integer p_status) {
-        this.p_status = p_status;
+    public void setZ_status(Integer z_status) {
+        this.z_status = z_status;
     }
 
-    public Integer getP_sum() {
-        return p_sum;
+    public Integer getZ_sum() {
+        return z_sum;
     }
 
-    public void setP_sum(Integer p_sum) {
-        this.p_sum = p_sum;
+    public void setZ_sum(Integer z_sum) {
+        this.z_sum = z_sum;
     }
 
-    public String getP_time() {
-        return p_time;
+    public String getZ_quota() {
+        return z_quota;
     }
 
-    public void setP_time(String p_time) {
-        this.p_time = p_time;
+    public void setZ_quota(String z_quota) {
+        this.z_quota = z_quota;
     }
 
-    public String getP_quota() {
-        return p_quota;
+    public String getZ_time() {
+        return z_time;
     }
 
-    public void setP_quota(String p_quota) {
-        this.p_quota = p_quota;
+    public void setZ_time(String z_time) {
+        this.z_time = z_time;
     }
 
-    public String getP_describe() {
-        return p_describe;
+    public String getZ_describe() {
+        return z_describe;
     }
 
-    public void setP_describe(String p_describe) {
-        this.p_describe = p_describe;
+    public void setZ_describe(String z_describe) {
+        this.z_describe = z_describe;
     }
-
 }

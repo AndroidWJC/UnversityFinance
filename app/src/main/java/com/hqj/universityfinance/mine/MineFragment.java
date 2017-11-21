@@ -47,15 +47,17 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mContext = getActivity();
-
-        mdbHelper = new DatabaseUtils(mContext, ConfigUtils.DATABASE_NAME, ConfigUtils.DATABASE_VERSION);
-        mDB = mdbHelper.getReadableDatabase();
-
+        initMemberVariable();
         View view = inflater.inflate(R.layout.mine_fragment, container, false);
         initView(view);
 
         return view;
+    }
+
+    private void initMemberVariable() {
+        mContext = getActivity();
+        mdbHelper = new DatabaseUtils(mContext, ConfigUtils.DATABASE_NAME, ConfigUtils.DATABASE_VERSION);
+        mDB = mdbHelper.getReadableDatabase();
     }
 
     private void initView(View parent) {

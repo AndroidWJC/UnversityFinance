@@ -17,6 +17,8 @@ import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.R;
 import com.hqj.universityfinance.home.NoticeListActivity;
 import com.hqj.universityfinance.home.WebViewActivity;
+import com.hqj.universityfinance.javabean.NewsData;
+import com.hqj.universityfinance.javabean.NoticeData;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
@@ -25,20 +27,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindCallback;
+import cn.bmob.v3.listener.FindListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.hqj.universityfinance.R.id.content;
 
 /**
  * Created by wang on 17-9-12.
  */
 
-public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
+public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
 
     private static final String TAG = "MyAsyncTask";
     private Banner mBanner;
@@ -49,6 +57,9 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
     private NoticeListActivity mNLActivity;
 
     private int mType = 0;
+
+    private boolean mDone;
+    private List<?> mDataList = new ArrayList<>();
 
     public MyAsyncTask(int type, Banner banner, Context context) {
         mType = type;
@@ -69,39 +80,25 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
     }
 
     @Override
-    protected List<BannerBean> doInBackground(String... strings) {
-        String result = null;
-        switch (mType) {
-            case ConfigUtils.TYPE_NEWS:
-                result = getJSONDataByHttp(strings[0]);
-                return parseJSON(result);
-
-            case ConfigUtils.TYPE_NOTICE:
-                result = getJSONDataByHttp(strings[0]);
-                return parseJSON(result);
-
-            case ConfigUtils.TYPE_NOTICE_LIST:
-                result = getJSONDataByHttp(strings[0]);
-                return parseJSON(result);
-        }
-        return null;
+    protected List<?> doInBackground(String... strings) {
+        return getDataFromBmob();
     }
 
     @Override
-    protected void onPostExecute(List<BannerBean> beenList) {
-        super.onPostExecute(beenList);
-        List<String> imgList = new ArrayList<>();
-        List<String> titleList = new ArrayList<>();
-        final List<String> urlList = new ArrayList<>();
+    protected void onPostExecute(List<?> objects) {
+        super.onPostExecute(objects);
+
         switch (mType) {
             case ConfigUtils.TYPE_NEWS:
-                for (BannerBean list : beenList) {
-                    Log.d(TAG, "getJSONData 2: title = "+list.getTitle()
-                            +", pic = "+list.getIcon()
-                            +", url = "+list.getIntentUrl());
-                    imgList.add(list.getIcon());
-                    titleList.add(list.getTitle());
-                    urlList.add(list.getIntentUrl());
+                List<String> imgList = new ArrayList<>();
+                List<String> titleList = new ArrayList<>();
+                final List<String> urlList = new ArrayList<>();
+                NewsData data;
+                for (int i = 0; i < objects.size(); i++) {
+                    data = (NewsData) objects.get(i);
+                    imgList.add(data.getPicture().getUrl());
+                    titleList.add(data.getTitle());
+                    urlList.add(data.getNew_url());
                 }
                 //设置图片加载器
                 mBanner.setImageLoader(new ImageLoader() {
@@ -121,32 +118,159 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<BannerBean>> {
                 mBanner.setImages(imgList);
                 mBanner.setBannerTitles(titleList);
                 mBanner.start();
+
                 break;
 
             case ConfigUtils.TYPE_NOTICE:
+                TextView view;
+                NoticeData notice;
+                for (int i = 0; i < objects.size(); i = i + 2) {
+                    notice = (NoticeData) objects.get(i);
+                    view = new TextView(mContext);
+                    view.setText(notice.getTitle());
+                    view.append("\n");
 
-                for (BannerBean list : beenList) {
-                    mViewFilpper.addView(createNoticeView(list));
+                    notice = (NoticeData) objects.get(i+1);
+                    view.append(notice.getTitle());
+                    view.setTextColor(mContext.getResources().getColor(R.color.color_text));
+                    view.setGravity(Gravity.CENTER_VERTICAL);
+                    mViewFilpper.addView(view);
                 }
                 mViewFilpper.startFlipping();
 
                 break;
 
             case ConfigUtils.TYPE_NOTICE_LIST:
-                mNLActivity.setAdapter(beenList);
+
+                break;
         }
     }
 
-    private TextView createNoticeView(BannerBean content) {
-        TextView view = new TextView(mContext);
-        view.setText(content.getTitle());
-        view.append("\n");
-        view.append(content.getTitle2());
-        view.setTextColor(mContext.getResources().getColor(R.color.color_text));
-        view.setGravity(Gravity.CENTER_VERTICAL);
+    //    @Override
+//    protected void onPostExecute(List<BannerBean> beenList) {
+//        super.onPostExecute(beenList);
+//        List<String> imgList = new ArrayList<>();
+//        List<String> titleList = new ArrayList<>();
+//        final List<String> urlList = new ArrayList<>();
+//        switch (mType) {
+//            case ConfigUtils.TYPE_NEWS:
+//                for (BannerBean list : beenList) {
+//                    Log.d(TAG, "getJSONData 2: title = "+list.getTitle()
+//                            +", pic = "+list.getIcon()
+//                            +", url = "+list.getIntentUrl());
+//                    imgList.add(list.getIcon());
+//                    titleList.add(list.getTitle());
+//                    urlList.add(list.getIntentUrl());
+//                }
+//                //设置图片加载器
+//                mBanner.setImageLoader(new ImageLoader() {
+//                    @Override
+//                    public void displayImage(Context context, Object path, ImageView imageView) {
+//                        Glide.with(context).load(path).into(imageView);
+//                    }
+//                });
+//                mBanner.setOnBannerListener(new OnBannerListener() {
+//                    @Override
+//                    public void OnBannerClick(int position) {
+//                        Intent intent = new Intent(mContext, WebViewActivity.class);
+//                        intent.setData(Uri.parse(urlList.get(position)));
+//                        mContext.startActivity(intent);
+//                    }
+//                });
+//                mBanner.setImages(imgList);
+//                mBanner.setBannerTitles(titleList);
+//                mBanner.start();
+//                break;
+//
+//            case ConfigUtils.TYPE_NOTICE:
+//
+//                for (BannerBean list : beenList) {
+//                    mViewFilpper.addView(createNoticeView(list));
+//                }
+//                mViewFilpper.startFlipping();
+//
+//                break;
+//
+//            case ConfigUtils.TYPE_NOTICE_LIST:
+//                mNLActivity.setAdapter(beenList);
+//        }
+//    }
 
-        return view;
+
+    private List<?> getDataFromBmob(){
+        mDone = false;
+        mDataList.clear();
+
+        switch (mType) {
+            case ConfigUtils.TYPE_NEWS:
+                BmobQuery<NewsData> query1 = new BmobQuery<>();
+                query1.setLimit(5);
+                query1.findObjects(mContext, new FindListener<NewsData>() {
+                    @Override
+                    public void onSuccess(List<NewsData> list) {
+                        mDataList = list;
+                        mDone = true;
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        mDone = true;
+                    }
+                });
+                break;
+
+            case ConfigUtils.TYPE_NOTICE:
+                BmobQuery<NoticeData> query2 = new BmobQuery<>();
+                query2.setLimit(6);
+                query2.findObjects(mContext, new FindListener<NoticeData>() {
+                    @Override
+                    public void onSuccess(List<NoticeData> list) {
+                        mDataList = list;
+                        mDone = true;
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        mDone = true;
+                    }
+                });
+                break;
+
+            case ConfigUtils.TYPE_NOTICE_LIST:
+                BmobQuery<NoticeData> query3 = new BmobQuery<>();
+                query3.setLimit(20);
+                query3.findObjects(mContext, new FindListener<NoticeData>() {
+                    @Override
+                    public void onSuccess(List<NoticeData> list) {
+                        mDataList = list;
+                        mDone = true;
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        mDone = true;
+                    }
+                });
+                break;
+
+        }
+
+        waitDone();
+
+        return mDataList;
     }
+
+    private void waitDone() {
+        while (!mDone) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        mDone = false;
+    }
+
 
     public static String getJSONDataByHttp(String url){
 

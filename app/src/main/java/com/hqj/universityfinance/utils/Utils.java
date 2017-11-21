@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 public class Utils {
 
-    static ProgressDialog mProgressDialog = null;
-    static SharedPreferences mSP = null;
-    static SharedPreferences.Editor mEditor = null;
+    private static ProgressDialog mProgressDialog = null;
+    private static SharedPreferences mSP = null;
+    private static SharedPreferences.Editor mEditor = null;
 
     private static Handler mHandler = new Handler();
 
@@ -92,36 +92,46 @@ public class Utils {
     }
 
     public static void writeToSharedPreferences(Context context, String key, boolean value) {
+        if (mEditor == null) {
+            mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        }
 
-        mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         mEditor.putBoolean(key, value);
         mEditor.commit();
     }
 
     public static void writeToSharedPreferences(Context context, String key, String value) {
+        if (mEditor == null) {
+            mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        }
 
-        mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         mEditor.putString(key, value);
         mEditor.commit();
     }
 
     public static void writeToSharedPreferences(Context context, String key, int value) {
+        if (mEditor == null) {
+            mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        }
 
-        mEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         mEditor.putInt(key, value);
         mEditor.commit();
     }
 
 
     public static boolean getBooleanFromSharedPreferences(Context context, String key) {
+        if (mSP == null) {
+            mSP = PreferenceManager.getDefaultSharedPreferences(context);
+        }
 
-        mSP = PreferenceManager.getDefaultSharedPreferences(context);
         return mSP.getBoolean(key, false);
     }
 
     public static String getStringFromSharedPreferences(Context context, String key) {
+        if (mSP == null) {
+            mSP = PreferenceManager.getDefaultSharedPreferences(context);
+        }
 
-        mSP = PreferenceManager.getDefaultSharedPreferences(context);
         return mSP.getString(key, "");
     }
 

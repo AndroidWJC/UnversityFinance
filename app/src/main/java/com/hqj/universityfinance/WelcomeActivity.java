@@ -1,11 +1,9 @@
 package com.hqj.universityfinance;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,27 +14,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
+import com.hqj.universityfinance.javabean.ProjectInfo;
 import com.hqj.universityfinance.javabean.StudentInfo;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
-import com.hqj.universityfinance.utils.HttpCallbackListener;
-import com.hqj.universityfinance.utils.HttpConnectUtils;
 import com.hqj.universityfinance.utils.Utils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by wang on 17-9-21.
@@ -105,68 +95,57 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void pullProjectDataToDB() {
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("type", ConfigUtils.TYPE_POST_GET_PROJECT);
-
-        String urlWithInfo = null;
-        try {
-            urlWithInfo = HttpConnectUtils.getURLWithParams(ConfigUtils.SERVER_URL, params);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        HttpConnectUtils.sendRequestByOKHttp(urlWithInfo, new HttpCallbackListener() {
+        BmobQuery<ProjectInfo> query = new BmobQuery<>();
+        query.setLimit(20);
+        query.findObjects(this, new FindListener<ProjectInfo>() {
             @Override
-            public void onLoadSuccess(String response) {
-                Log.d(TAG, "pullProjectDataToDB: response = "+response);
-                if (response.startsWith(ConfigUtils.SUCCESSFUL)) {
-                    mPullSucceed = saveDataToDB(response);
+            public void onSuccess(List<ProjectInfo> list) {
+                Log.d(TAG, "wjc: onSuccess: project size = "+list.size());
+                if (list.size() > 0) {
+                    mPullSucceed = saveDataToDB(list);
                 }
                 mPullDone = true;
+                Log.d(TAG, "wjc: onSuccess: pull project done");
             }
 
             @Override
-            public void onLoadFailed(int reason) {
+            public void onError(int i, String s) {
+                Log.d(TAG, "wjc: onSuccess: pull project error "+s);
                 mPullDone = true;
                 mPullSucceed = false;
             }
         });
+
     }
 
-    private boolean saveDataToDB(String jsonData) {
-        JSONObject object = null;
-        JSONArray array = null;
-        Log.d(TAG, "saveDataToDB: jsonData = "+jsonData);
+    private boolean saveDataToDB(List<ProjectInfo> infos) {
+        List<ProjectInfo> data = infos;
 
+        ContentValues value = new ContentValues();
+        ProjectInfo info;
+        String projectId;
         try {
-            object = new JSONObject(jsonData);
-            array = object.getJSONArray("project");
-
-            ContentValues value = new ContentValues();
-            for (int i = 0; i < array.length(); i++) {
-                object = array.getJSONObject(i);
-                String projectId = object.getString("z_id");
+            for (int i = 0; i < data.size(); i++) {
+                info = infos.get(i);
+                projectId = info.getZ_id();
                 if (ifProjectExist(projectId)) {
                     continue;
                 }
-                value.put("z_id", object.getString("z_id"));
-                value.put("z_name", object.getString("z_name"));
-                value.put("z_status", object.getInt("z_status"));
-                value.put("z_sum", object.getString("z_sum"));
-                value.put("z_time", object.getString("z_time"));
-                value.put("z_quota", object.getString("z_quota"));
-                value.put("z_describe", object.getString("z_describe"));
+                value.put("z_id", projectId);
+                value.put("z_name", info.getZ_name());
+                value.put("z_status", info.getZ_status());
+                value.put("z_sum", info.getZ_sum());
+                value.put("z_time", info.getZ_time());
+                value.put("z_quota", info.getZ_quota());
+                value.put("z_describe", info.getZ_describe());
                 mDB.insert(ConfigUtils.TABLE_PROJECT, null, value);
                 value.clear();
             }
-
             return true;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-
-        return false;
     }
 
     private boolean ifProjectExist(String projectId) {

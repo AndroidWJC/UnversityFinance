@@ -138,15 +138,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void saveDataToDatabase(StudentInfo info) {
-        Cursor cursor = mDB.rawQuery("select s_password from " + ConfigUtils.TABLE_STUDENT + " " + "where s_id=?",
-                new String[]{mAccountEt.getText().toString()});
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return;
-        }
-
         Intent intent = new Intent(this, SaveDataService.class);
         intent.putExtra("data", info);
+        intent.putExtra("type", 1);
         startService(intent);
     }
 
