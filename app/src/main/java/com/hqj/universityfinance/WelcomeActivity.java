@@ -22,7 +22,9 @@ import com.hqj.universityfinance.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
@@ -56,6 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
         initMemberVariable();
         initThirdService();
 
+        initStaticVariable();
         updateSchoolYear();
         confirmAccount();
     }
@@ -78,6 +81,47 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initThirdService() {
         Bmob.initialize(getApplicationContext(), BMOB_APP_ID);
+    }
+
+
+    private void initStaticVariable() {
+        Map<String, String> map = new HashMap<>();
+        String[] projectTitles = getResources().getStringArray(R.array.project_title_array);
+        String[] projectIds = getResources().getStringArray(R.array.project_id_array);
+        for (int i = 0; i < projectIds.length; i++) {
+            if (projectIds[i].startsWith("jxj0")) {
+                map.put(projectIds[i], projectTitles[0]);
+
+            } else if (projectIds[i].startsWith("jxj1")) {
+                map.put(projectIds[i], projectTitles[1]);
+
+            } else if (projectIds[i].startsWith("jxj2")) {
+                map.put(projectIds[i], projectTitles[2]);
+
+            } else if (projectIds[i].startsWith("jxj3")) {
+                map.put(projectIds[i], projectTitles[3]);
+
+            } else if (projectIds[i].startsWith("jxj4")) {
+                map.put(projectIds[i], projectTitles[4]);
+
+            } else if (projectIds[i].startsWith("jxj5")) {
+                map.put(projectIds[i], projectTitles[5]);
+
+            } else if (projectIds[i].startsWith("jxj6")) {
+                map.put(projectIds[i], projectTitles[6]);
+
+            } else if (projectIds[i].startsWith("jxj7")) {
+                map.put(projectIds[i], projectTitles[7]);
+
+            } else if (projectIds[i].startsWith("jxj8")) {
+                map.put(projectIds[i], projectTitles[8]);
+
+            } else if (projectIds[i].startsWith("jxj9")) {
+                map.put(projectIds[i], projectTitles[9]);
+            }
+        }
+        ConfigUtils.setProjectMap(map);
+        ConfigUtils.setCurrentUserId(Utils.getStringFromSharedPreferences(this, "account"));
     }
 
     private void confirmAccount() {

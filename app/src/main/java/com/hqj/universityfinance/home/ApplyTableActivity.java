@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.customview.WheelView;
+import com.hqj.universityfinance.javabean.ApplyTableInfo;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
 import com.hqj.universityfinance.utils.HttpCallbackListener;
@@ -28,10 +31,14 @@ import com.hqj.universityfinance.utils.Utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import cn.bmob.v3.listener.SaveListener;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -59,6 +66,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
     private Bitmap mPhotoBitmap;
     private String mCurrentProjectId;
     private String mCurrentProjectName;
+    private String mSelectedItem;
 
     private DatabaseUtils mdbHelper;
     private SQLiteDatabase mDB;
@@ -163,10 +171,73 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if (position == 0) {
+            if (needScoreInput()) {
+                String[] score = getResources().getStringArray(R.array.score_list);
+                createWheelView(score);
+            } else if (needLoanInput()) {
+                String[] loanSum = getResources().getStringArray(R.array.loan_num_list);
+                createWheelView(loanSum);
+            } else {
+                goToEditActivity(position);
+            }
+        } else {
+            goToEditActivity(position);
+        }
+    }
+
+    private void goToEditActivity(int position) {
         Intent intent = new Intent(this, EditTextActivity.class);
         intent.putExtra("title", mTitles[position]);
         intent.putExtra("content", mContents[position]);
         startActivityForResult(intent, position);
+    }
+
+    private void createWheelView(String[] dataList) {
+        View customView = LayoutInflater.from(this).inflate(R.layout.wheel_view, null);
+        WheelView wheelView = (WheelView) customView.findViewById(R.id.wheel_view);
+        wheelView.setOffset(2);
+        wheelView.setItems(Arrays.asList(dataList));
+        wheelView.setSeletion(3);
+        wheelView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                mSelectedItem = item;
+            }
+        });
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("选择");
+        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mContents[0] = mSelectedItem;
+                View itemView = mListView.getChildAt(0);
+                TextView contentView = (TextView) itemView.findViewById(R.id.content);
+                contentView.setText(mSelectedItem);
+            }
+        });
+        dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.setView(customView).show();
+    }
+
+    private boolean needScoreInput() {
+        return (mCurrentProjectId.startsWith("jxj0")
+                || mCurrentProjectId.startsWith("jxj1")
+                || mCurrentProjectId.startsWith("jxj2")
+                || mCurrentProjectId.startsWith("jxj3")
+                || mCurrentProjectId.startsWith("jxj4")
+                || mCurrentProjectId.startsWith("jxj6")
+                || mCurrentProjectId.startsWith("jxj7")
+        );
+    }
+
+    private boolean needLoanInput() {
+        return mCurrentProjectId.startsWith("jxj5");
     }
 
     @Override
@@ -179,7 +250,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Utils.showLoadingDialog(ApplyTableActivity.this);
-                        submitApplyTable();
+                        submitApplyTableByBmob();
                     }
                 });
                 dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -191,6 +262,59 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
                 dialog.show();
                 break;
         }
+    }
+
+    private void submitApplyTableByBmob() {
+        if (checkSomeIsNull()){
+            Utils.dismissLoadingDialog();
+            return;
+        }
+
+        ApplyTableInfo applyTable = new ApplyTableInfo();
+        applyTable.setS_id(Integer.valueOf(mCurrentUserId));
+        applyTable.setZ_id(mCurrentProjectId);
+        applyTable.setA_status(0);
+        applyTable.setVerify_t_id(123456789);
+        applyTable.setVerify_result(0);
+
+        if (mCurrentProjectId.startsWith("jxj0")
+                || mCurrentProjectId.startsWith("jxj1")
+                || mCurrentProjectId.startsWith("jxj2")
+                || mCurrentProjectId.startsWith("jxj3")
+                || mCurrentProjectId.startsWith("jxj6")
+                || mCurrentProjectId.startsWith("jxj7")) {
+            applyTable.setA_score(Float.valueOf(mContents[0]));
+            applyTable.setA_job(mContents[1]);
+            applyTable.setA_honor(mContents[2]);
+            applyTable.setA_prize(mContents[3]);
+            applyTable.setApply_reason(mContents[4]);
+        } else if (mCurrentProjectId.startsWith("jxj4")) {
+            applyTable.setA_score(Float.valueOf(mContents[0]));
+            applyTable.setA_job(mContents[1]);
+            applyTable.setApply_reason(mContents[2]);
+        } else if (mCurrentProjectId.startsWith("jxj5")) {
+            applyTable.setA_loan_sum(mContents[0]);
+            applyTable.setApply_reason(mContents[1]);
+        } else {
+            Utils.showToast(ApplyTableActivity.this, R.string.toast_unknown_error);
+            Utils.dismissLoadingDialog();
+            return;
+        }
+
+        applyTable.save(this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                Utils.dismissLoadingDialog();
+                Utils.showToast(ApplyTableActivity.this, R.string.title_apply_table_succeed);
+                finish();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
+                Utils.dismissLoadingDialog();
+            }
+        });
     }
 
     private void submitApplyTable() {

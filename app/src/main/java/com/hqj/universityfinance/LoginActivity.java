@@ -120,6 +120,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     Log.d(TAG, "wjc: onSuccess: save begin");
                     Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
                     Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
+                    ConfigUtils.setCurrentUserId(mAccountEt.getText().toString());
                     saveDataToDatabase(info);
 
                     succeedToLogin();

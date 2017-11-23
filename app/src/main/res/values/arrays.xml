@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="score_list">
+        <item>3.1</item>
+        <item>3.2</item>
+        <item>3.3</item>
+        <item>3.4</item>
+        <item>3.5</item>
+        <item>3.6</item>
+        <item>3.7</item>
+        <item>3.8</item>
+        <item>3.9</item>
+        <item>4.0</item>
+        <item>4.1</item>
+        <item>4.2</item>
+        <item>4.3</item>
+        <item>4.4</item>
+        <item>4.5</item>
+        <item>4.6</item>
+        <item>4.7</item>
+        <item>4.8</item>
+        <item>4.9</item>
+        <item>5.0</item>
+    </string-array>
+
+    <string-array name="loan_num_list">
+        <item>3000</item>
+        <item>5000</item>
+        <item>8000</item>
+        <item>10000</item>
+        <item>20000</item>
+    </string-array>
+
+    <string-array name="project_id_array">
+        <item>jxj01</item>
+        <item>jxj11</item>
+        <item>jxj12</item>
+        <item>jxj13</item>
+        <item>jxj21</item>
+        <item>jxj22</item>
+        <item>jxj31</item>
+        <item>jxj32</item>
+        <item>jxj41</item>
+        <item>jxj42</item>
+        <item>jxj51</item>
+        <item>jxj61</item>
+        <item>jxj62</item>
+        <item>jxj71</item>
+        <item>jxj72</item>
+        <item>jxj81</item>
+        <item>jxj91</item>
+    </string-array>
+</resources>

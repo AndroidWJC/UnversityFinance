@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobObject;
  * Created by wang on 17-11-20.
  */
 
-public class ProjectInfo extends BmobObject implements Serializable{
+public class ProjectInfo extends BmobBaseBean{
 
     private String z_id;
     private String z_name;

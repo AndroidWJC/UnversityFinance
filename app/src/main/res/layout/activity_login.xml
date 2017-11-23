@@ -5,17 +5,17 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:background="@drawable/aui_ic_zaker"
+        android:background="@drawable/logo3"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
 
     <com.hqj.universityfinance.customview.ClearEditText
         android:id="@+id/login_account"
         android:hint="@string/hint_account"
         android:singleLine="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:text="@string/forget_password"
         android:textColor="#4169e1"
         android:layout_gravity="end"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

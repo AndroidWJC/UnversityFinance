@@ -60,7 +60,6 @@
         <item>"z_describe"</item>
     </string-array>
 
-
     <string-array name="info_item">
         <item>"姓名"</item>
         <item>"性别"</item>

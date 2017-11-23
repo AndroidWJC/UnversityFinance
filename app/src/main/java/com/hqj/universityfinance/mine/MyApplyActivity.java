@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.javabean.ApplyTableInfo;
 import com.hqj.universityfinance.javabean.MyApplyBean;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.HttpCallbackListener;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 import okhttp3.FormBody;
 
 /**
@@ -34,6 +37,7 @@ public class MyApplyActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private List<MyApplyBean> mBeanList;
+    private List<ApplyTableInfo> mApplyList;
     private Handler mHandler;
 
     @Override
@@ -47,6 +51,7 @@ public class MyApplyActivity extends BaseActivity {
     }
 
     private void initView() {
+        mActionBarTitle.setText(R.string.title_my_apply);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_apply);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -54,35 +59,30 @@ public class MyApplyActivity extends BaseActivity {
     }
 
     private void initDate() {
-        FormBody.Builder builder = new FormBody.Builder();
-        String account = Utils.getStringFromSharedPreferences(this, "account");
-        builder.add("account", account);
-        builder.add("type", "2");
-
-        HttpConnectUtils.postRequestByOKHttp(ConfigUtils.SERVER_URL,
-                builder,
-                new HttpCallbackListener() {
+        BmobQuery<ApplyTableInfo> query = new BmobQuery<>();
+        query.setLimit(15);
+        query.addWhereEqualTo("s_id", Integer.valueOf(ConfigUtils.getCurrentUserId()));
+        query.order("-createdAt");
+        query.findObjects(this, new FindListener<ApplyTableInfo>() {
+            @Override
+            public void onSuccess(List<ApplyTableInfo> list) {
+                mApplyList = list;
+                mHandler.post(new Runnable() {
                     @Override
-                    public void onLoadSuccess(final String response) {
-                        Log.d("MyApplyActivity", "onLoadSuccess: response="+response);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                parseDataFromJson(response);
-                                MyApplyAdapter adapter = new MyApplyAdapter(MyApplyActivity.this, mBeanList);
-                                mRecyclerView.setAdapter(adapter);
-                            }
-                        });
-
-                        Utils.dismissLoadingDialog();
-                    }
-
-                    @Override
-                    public void onLoadFailed(int reason) {
-                        Utils.dismissLoadingDialog();
-                        Utils.showToast(MyApplyActivity.this, R.string.toast_unknown_error);
+                    public void run() {
+                        MyApplyAdapter adapter = new MyApplyAdapter(MyApplyActivity.this, mApplyList);
+                        mRecyclerView.setAdapter(adapter);
                     }
                 });
+                Utils.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Utils.dismissLoadingDialog();
+                Utils.showToast(MyApplyActivity.this, R.string.login_failed_net_error);
+            }
+        });
     }
 
     private void parseDataFromJson(String jsonString) {

@@ -3,6 +3,7 @@ package com.hqj.universityfinance.home;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.BoolRes;
 import android.support.v4.view.PagerAdapter;
@@ -43,6 +44,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private PageIndicatorView mIndicatorView;
     private int mPageCount = 0;
     private Context mContext;
+    private MyAsyncTask mNewsLoadTask;
+    private MyAsyncTask mNoticeLoadTask;
 
     private static final int POSITION_0 = 0;
     private static final int POSITION_1 = 1;
@@ -55,7 +58,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private static final int POSITION_8 = 8;
     private static final int POSITION_9 = 9;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,8 +66,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mContext = getActivity();
         initView(view);
 
-        new MyAsyncTask(ConfigUtils.TYPE_NEWS, mBanner, mContext).execute(ConfigUtils.NEWS_JSON_URL);
-        new MyAsyncTask(ConfigUtils.TYPE_NOTICE, mViewFlipper, mContext).execute(ConfigUtils.NOTICE_JSON_URL);
+        mNewsLoadTask = new MyAsyncTask(ConfigUtils.TYPE_NEWS, mBanner, mContext);
+        mNewsLoadTask.execute();
+        mNoticeLoadTask = new MyAsyncTask(ConfigUtils.TYPE_NOTICE, mViewFlipper, mContext);
+        mNoticeLoadTask.execute();
 
         return view;
     }
@@ -229,5 +233,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         Intent intent = new Intent(mContext, ProjectIntroduceActivity.class);
         intent.putExtra("projectId", projectId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (mNewsLoadTask != null && mNewsLoadTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mNewsLoadTask.cancel(true);
+        }
+
+        if (mNoticeLoadTask != null && mNoticeLoadTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mNoticeLoadTask.cancel(true);
+        }
     }
 }

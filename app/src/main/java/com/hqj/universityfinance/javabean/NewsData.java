@@ -9,7 +9,7 @@ import cn.bmob.v3.datatype.BmobFile;
  * Created by wang on 17-11-21.
  */
 
-public class NewsData extends BmobObject implements Serializable {
+public class NewsData extends BmobBaseBean {
 
     private String title;
     private BmobFile picture;

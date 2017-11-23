@@ -2,6 +2,7 @@ package com.hqj.universityfinance.home;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.javabean.NoticeData;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.MyAsyncTask;
 import com.hqj.universityfinance.utils.Utils;
@@ -34,7 +36,8 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
     ListView mListView;
     TitleOnlyItemAdapter mAdapter = null;
     SwipeRefreshLayout mRefreshLayout;
-    private List<BannerBean> mBeanList;
+    private List<?> mNoticeList;
+    private MyAsyncTask mNoticeLoadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +46,12 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
 
         initView();
 
-        new MyAsyncTask(ConfigUtils.TYPE_NOTICE_LIST, mListView, this)
-                .execute(ConfigUtils.NOTICE_LIST_JSON_URL);
-
+        mNoticeLoadTask = new MyAsyncTask(ConfigUtils.TYPE_NOTICE_LIST, mListView, this);
+        mNoticeLoadTask.execute();
     }
 
     private void initView() {
+        Utils.showLoadingDialog(this);
         mActionBarTitle.setText(R.string.title_notice_list);
 
         mListView = (ListView) findViewById(R.id.list_view);
@@ -64,10 +67,11 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
         });
     }
 
-    public void setAdapter(List<BannerBean> list) {
-        mBeanList = list;
-        mAdapter = new TitleOnlyItemAdapter(mBeanList, this);
+    public void setAdapter(List<?> list) {
+        mNoticeList = list;
+        mAdapter = new TitleOnlyItemAdapter(mNoticeList, this);
         mListView.setAdapter(mAdapter);
+        Utils.dismissLoadingDialog();
     }
 
     private void refreshList() {
@@ -75,18 +79,18 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
             @Override
             public void run() {
 
-                String result = MyAsyncTask.getJSONDataByHttp(ConfigUtils.NOTICE_LIST_JSON_URL);
-                List<BannerBean> list = parseJson(result);
-                Log.d(TAG, "run: result = "+result+ ", size = "+list.size());
-                if (needUpdate(list)) {
-                    mBeanList.clear();
-                    mBeanList.addAll(list);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                //List<?> data = mNoticeLoadTask.getDataFromBmob();
+                //Log.d(TAG, "run: size = "+data.size());
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.notifyDataSetChanged();
+                        //mAdapter.notifyDataSetChanged();
                         mRefreshLayout.setRefreshing(false);
                         Utils.showToast(NoticeListActivity.this, R.string.toast_refresh_succeed);
                     }
@@ -95,36 +99,18 @@ public class NoticeListActivity extends BaseActivity implements AdapterView.OnIt
         }).start();
     }
 
-    private List<BannerBean> parseJson(String data) {
-        List<BannerBean> beanList = new ArrayList<>();
-        BannerBean bannerBean = null;
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(data);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                bannerBean = new BannerBean();
-                jsonObject = jsonArray.getJSONObject(i);
-                bannerBean.setTitle(jsonObject.getString("title"));
-                bannerBean.setIntentUrl(jsonObject.getString("url"));
-                beanList.add(bannerBean);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return beanList;
-    }
-
-    private boolean needUpdate(List<BannerBean> newList) {
-        Log.d(TAG, "needUpdate: newList.size = "+newList.size());
-        return !mBeanList.get(0).getTitle()
-                .equals(newList.get(0).getTitle());
-    }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, WebViewActivity.class);
-        intent.setData(Uri.parse(mBeanList.get(position).getIntentUrl()));
+        intent.setData(Uri.parse(((NoticeData)mNoticeList.get(position)).getNotice_url()));
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mNoticeLoadTask != null && mNoticeLoadTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mNoticeLoadTask.cancel(true);
+        }
     }
 }

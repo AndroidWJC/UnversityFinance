@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.R;
 import com.hqj.universityfinance.home.NoticeListActivity;
+import com.hqj.universityfinance.home.TitleOnlyItemAdapter;
 import com.hqj.universityfinance.home.WebViewActivity;
 import com.hqj.universityfinance.javabean.NewsData;
 import com.hqj.universityfinance.javabean.NoticeData;
@@ -40,7 +41,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.hqj.universityfinance.R.id.content;
 
 /**
  * Created by wang on 17-9-12.
@@ -54,7 +54,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
     private SwipeRefreshLayout mRefreshLayout;
     private ListView mListView;
     private Context mContext;
-    private NoticeListActivity mNLActivity;
+    private NoticeListActivity mNoticeListActivity;
 
     private int mType = 0;
 
@@ -76,7 +76,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
     public MyAsyncTask(int type, ListView listView, Context context) {
         mType = type;
         mListView = listView;
-        mNLActivity = (NoticeListActivity) context;
+        mNoticeListActivity = (NoticeListActivity) context;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
     @Override
     protected void onPostExecute(List<?> objects) {
         super.onPostExecute(objects);
-
+        Log.d(TAG, "onPostExecute: wjc: onPostExecute type = "+mType);
         switch (mType) {
             case ConfigUtils.TYPE_NEWS:
                 List<String> imgList = new ArrayList<>();
@@ -141,63 +141,12 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
                 break;
 
             case ConfigUtils.TYPE_NOTICE_LIST:
-
+                mNoticeListActivity.setAdapter(objects);
                 break;
         }
     }
 
-    //    @Override
-//    protected void onPostExecute(List<BannerBean> beenList) {
-//        super.onPostExecute(beenList);
-//        List<String> imgList = new ArrayList<>();
-//        List<String> titleList = new ArrayList<>();
-//        final List<String> urlList = new ArrayList<>();
-//        switch (mType) {
-//            case ConfigUtils.TYPE_NEWS:
-//                for (BannerBean list : beenList) {
-//                    Log.d(TAG, "getJSONData 2: title = "+list.getTitle()
-//                            +", pic = "+list.getIcon()
-//                            +", url = "+list.getIntentUrl());
-//                    imgList.add(list.getIcon());
-//                    titleList.add(list.getTitle());
-//                    urlList.add(list.getIntentUrl());
-//                }
-//                //设置图片加载器
-//                mBanner.setImageLoader(new ImageLoader() {
-//                    @Override
-//                    public void displayImage(Context context, Object path, ImageView imageView) {
-//                        Glide.with(context).load(path).into(imageView);
-//                    }
-//                });
-//                mBanner.setOnBannerListener(new OnBannerListener() {
-//                    @Override
-//                    public void OnBannerClick(int position) {
-//                        Intent intent = new Intent(mContext, WebViewActivity.class);
-//                        intent.setData(Uri.parse(urlList.get(position)));
-//                        mContext.startActivity(intent);
-//                    }
-//                });
-//                mBanner.setImages(imgList);
-//                mBanner.setBannerTitles(titleList);
-//                mBanner.start();
-//                break;
-//
-//            case ConfigUtils.TYPE_NOTICE:
-//
-//                for (BannerBean list : beenList) {
-//                    mViewFilpper.addView(createNoticeView(list));
-//                }
-//                mViewFilpper.startFlipping();
-//
-//                break;
-//
-//            case ConfigUtils.TYPE_NOTICE_LIST:
-//                mNLActivity.setAdapter(beenList);
-//        }
-//    }
-
-
-    private List<?> getDataFromBmob(){
+    public List<?> getDataFromBmob(){
         mDone = false;
         mDataList.clear();
 
@@ -221,6 +170,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
 
             case ConfigUtils.TYPE_NOTICE:
                 BmobQuery<NoticeData> query2 = new BmobQuery<>();
+                query2.order("-createdAt"); //descending
                 query2.setLimit(6);
                 query2.findObjects(mContext, new FindListener<NoticeData>() {
                     @Override
@@ -238,21 +188,23 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
 
             case ConfigUtils.TYPE_NOTICE_LIST:
                 BmobQuery<NoticeData> query3 = new BmobQuery<>();
-                query3.setLimit(20);
-                query3.findObjects(mContext, new FindListener<NoticeData>() {
+                query3.order("-createdAt"); //descending
+                query3.setLimit(15);
+                query3.findObjects(mNoticeListActivity, new FindListener<NoticeData>() {
                     @Override
                     public void onSuccess(List<NoticeData> list) {
+                        Log.d(TAG, "onSuccess: wjc: size "+list.size());
                         mDataList = list;
                         mDone = true;
                     }
 
                     @Override
                     public void onError(int i, String s) {
+                        Log.d(TAG, "onError: wjc: s "+s);
                         mDone = true;
                     }
                 });
                 break;
-
         }
 
         waitDone();

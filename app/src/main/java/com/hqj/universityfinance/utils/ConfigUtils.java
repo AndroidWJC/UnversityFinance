@@ -2,6 +2,9 @@ package com.hqj.universityfinance.utils;
 
 import com.hqj.universityfinance.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by wang on 17-9-13.
  */
@@ -69,5 +72,29 @@ public class ConfigUtils {
             "jxj7%",
             "jxj81"
     };
+
+
+    private static Map<String, String> sProjectMap = new HashMap<>();
+    public static Map<String, String> getProjectMap() {
+        return sProjectMap;
+    }
+
+    public static void setProjectMap(Map<String, String> projectMap) {
+        sProjectMap.clear();
+        sProjectMap.putAll(projectMap);
+    }
+
+
+    private static String sCurrentUserId;
+    public static String getCurrentUserId() {
+        return sCurrentUserId;
+    }
+
+    public static void setCurrentUserId(String sCurrentUserId) {
+        ConfigUtils.sCurrentUserId = sCurrentUserId;
+    }
+
+
+
 
 }

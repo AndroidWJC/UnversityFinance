@@ -11,7 +11,7 @@ import cn.bmob.v3.datatype.BmobFile;
  * Created by wang on 17-11-20.
  */
 
-public class StudentInfo extends BmobObject implements Serializable{
+public class StudentInfo extends BmobBaseBean{
 
     private Integer id;
     private String password;

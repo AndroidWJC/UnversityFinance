@@ -1,7 +1,10 @@
 package com.hqj.universityfinance.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.ProjectBean;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.javabean.NoticeData;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ public class TitleOnlyItemAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
+    public View getView(final int i, View convertView, ViewGroup parent) {
 
         View view = null;
         ViewHolder viewHolder = null;
@@ -62,6 +66,16 @@ public class TitleOnlyItemAdapter extends BaseAdapter{
             viewHolder.textView.setText(((BannerBean) getItem(i)).getTitle());
         } else if (getItem(i) instanceof ProjectBean) {
             viewHolder.textView.setText(((ProjectBean)getItem(i)).getProjectName());
+        } else if (getItem(i) instanceof NoticeData) {
+            viewHolder.textView.setText(((NoticeData) getItem(i)).getTitle());
+            viewHolder.textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    intent.setData(Uri.parse(((NoticeData) getItem(i)).getNotice_url()));
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         return view;
