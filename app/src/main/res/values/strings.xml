@@ -101,6 +101,35 @@
         <item>"申请理由"</item>
     </string-array>
 
+    <string-array name="apply_table_scholarship_with_time">
+        <item>"成绩(学年绩点)"</item>
+        <item>"学生工作"</item>
+        <item>"个人荣誉"</item>
+        <item>"竞赛科研"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_assistance_with_time">
+        <item>"成绩(学年绩点)"</item>
+        <item>"任职情况"</item>
+        <item>"个人荣誉"</item>
+        <item>"竞赛科研"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_loan_with_time">
+        <item>"贷款金额"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string-array name="apply_table_job_with_time">
+        <item>"成绩(学年绩点)"</item>
+        <item>"学生工作"</item>
+        <item>"申请理由"</item>
+    </string-array>
+
+    <string name="submit_time">提交时间</string>
+
     <string name="apply_table_name">姓名：</string>
     <string name="apply_table_id">学号：</string>
     <string name="apply_table_college">学院：</string>

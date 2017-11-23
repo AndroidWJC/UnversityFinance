@@ -85,29 +85,4 @@ public class MyApplyActivity extends BaseActivity {
         });
     }
 
-    private void parseDataFromJson(String jsonString) {
-        mBeanList = new ArrayList<>();
-        JSONObject jsonObject = null;
-        MyApplyBean bean = null;
-
-        try {
-            jsonObject = new JSONObject(jsonString);
-            JSONArray jsonArray = jsonObject.getJSONArray("apply_history");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                bean = new MyApplyBean();
-                jsonObject = jsonArray.getJSONObject(i);
-                String z_id = jsonObject.getString("z_id");
-                bean.setProjectId(z_id);
-                bean.setVerifyResult(jsonObject.getInt("verify_result"));
-                bean.setTime(jsonObject.getString("a_time"));
-                mBeanList.add(bean);
-            }
-
-        } catch (JSONException e) {
-            Log.d("MyApplyActivity", "parseDataFromJson: e = "+e.toString());
-            e.printStackTrace();
-        }
-
-    }
-
 }

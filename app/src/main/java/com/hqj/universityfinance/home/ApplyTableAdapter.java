@@ -1,6 +1,8 @@
 package com.hqj.universityfinance.home;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +18,18 @@ import com.hqj.universityfinance.R;
 public class ApplyTableAdapter extends BaseAdapter {
 
     private String[] mTitles;
+    private String[] mContents;
     private Context mContext;
 
     public ApplyTableAdapter(Context context, String[] title) {
         mContext = context;
         mTitles = title;
+    }
+
+    public ApplyTableAdapter(Context context, String[] title, String[] content) {
+        mContext = context;
+        mTitles = title;
+        mContents = content;
     }
 
     @Override
@@ -45,7 +54,14 @@ public class ApplyTableAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
 
         if (convertView == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.left_right_layout_arrow_item, parent, false);
+            if (mContents == null) {
+                view = LayoutInflater
+                        .from(mContext).inflate(R.layout.left_right_layout_arrow_item, parent, false);
+            } else {
+                view = LayoutInflater
+                        .from(mContext).inflate(R.layout.left_right_layout_item, parent, false);
+            }
+
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
@@ -54,6 +70,10 @@ public class ApplyTableAdapter extends BaseAdapter {
         }
 
         viewHolder.titleTv.setText((String) getItem(i));
+        if (mContents != null) {
+            viewHolder.contentTv.setText(mContents[i]);
+            viewHolder.contentTv.setGravity(Gravity.START);
+        }
 
         return view;
     }

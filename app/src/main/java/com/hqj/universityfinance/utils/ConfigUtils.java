@@ -40,6 +40,10 @@ public class ConfigUtils {
     public final static String TYPE_POST_LOGIN = "L";
     public final static String TYPE_POST_GET_PROJECT = "P";
 
+    public final static int STATUS_NOT_VERIFY = 0;
+    public final static int STATUS_PASS = 1;
+    public final static int STATUS_REFUSE = 2;
+
     public final static int ITEM_COUNT_X = 4;
     public final static int ITEM_COUNT_Y = 2;
     public final static int ITEMS_MAX_NUM = ITEM_COUNT_X * ITEM_COUNT_Y;

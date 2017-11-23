@@ -8,7 +8,7 @@
                 android:top="-2sp">
                 <shape android:shape="rectangle" >
                     <solid android:color="#C0C0C0" />
-                    <stroke android:width="1sp" android:color="#DCDCDC"/>
+                    <stroke android:width="0.5sp" android:color="#DCDCDC"/>
                 </shape>
             </item>
         </layer-list>
@@ -22,7 +22,7 @@
                 android:top="-2sp">
                 <shape android:shape="rectangle" >
                     <solid android:color="#00ffffff" />
-                    <stroke android:width="1sp" android:color="#DCDCDC"/>
+                    <stroke android:width="0.5sp" android:color="#DCDCDC"/>
                 </shape>
             </item>
         </layer-list>

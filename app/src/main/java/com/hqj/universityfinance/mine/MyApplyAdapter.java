@@ -63,7 +63,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
                 Intent intent = new Intent(mContext, ApplyPreviewActivity.class);
-                intent.putExtra("applyBean", mApplyList.get(position));
+                intent.putExtra("applyInfo", mApplyList.get(position));
                 mContext.startActivity(intent);
             }
         });
