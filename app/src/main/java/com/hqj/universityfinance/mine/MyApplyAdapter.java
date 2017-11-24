@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
     private List<ApplyTableInfo> mApplyList;
     private Context mContext;
     private Map<String, String> mProjectMap;
+    private Map<String, Integer> mProjectIconMap;
 
     private final static int STATUS_NOT_VERIFY = 0;
     private final static int STATUS_PASS = 1;
@@ -37,6 +40,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
         TextView projectTv;
         TextView statusTv;
         TextView timeTv;
+        ImageView iconIv;
         RelativeLayout container;
 
         ViewHolder(View view) {
@@ -44,6 +48,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
             projectTv = (TextView) view.findViewById(R.id.project_apply);
             statusTv = (TextView) view.findViewById(R.id.status_apply);
             timeTv = (TextView) view.findViewById(R.id.time_apply);
+            iconIv= (ImageView) view.findViewById(R.id.icon);
             container = (RelativeLayout) view.findViewById(R.id.container);
         }
     }
@@ -52,6 +57,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
         mContext = context;
         mApplyList = data;
         mProjectMap = ConfigUtils.getProjectMap();
+        mProjectIconMap = ConfigUtils.getProjectIconMap();
     }
 
     @Override
@@ -87,6 +93,7 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
         holder.timeTv.setText(mApplyList.get(position).getCreatedAt());
         if (mProjectMap.get(mApplyList.get(position).getZ_id()) != null) {
             holder.projectTv.setText(mProjectMap.get(mApplyList.get(position).getZ_id()));
+            holder.iconIv.setImageResource(mProjectIconMap.get(mApplyList.get(position).getZ_id()));
         } else {
             holder.projectTv.setText(mApplyList.get(position).getZ_id());
         }

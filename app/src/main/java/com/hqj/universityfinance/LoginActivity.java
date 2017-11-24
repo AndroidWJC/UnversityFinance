@@ -62,6 +62,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void initView() {
+        mBackBtn.setVisibility(View.GONE);
         mAccountEt = (ClearEditText) findViewById(R.id.login_account);
         mPasswordEt = (ClearEditText) findViewById(R.id.login_password);
         mForgetPasswordTv = (TextView) findViewById(R.id.forget_password);

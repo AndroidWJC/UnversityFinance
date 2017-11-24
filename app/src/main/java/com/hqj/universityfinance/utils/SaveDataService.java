@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Button;
 
 import com.hqj.universityfinance.ProjectBean;
@@ -50,12 +51,12 @@ public class SaveDataService extends IntentService {
 
         switch (mType) {
             case 1:
-                StudentInfo info = (StudentInfo) intent.getSerializableExtra("data");
-                savedToStudentDB(info);
+                StudentInfo stuInfo = (StudentInfo) intent.getSerializableExtra("data");
+                savedToStudentDB(stuInfo);
                 break;
             case 2:
-                ProjectInfo info1 = (ProjectInfo) intent.getSerializableExtra("data");
-                savedToProjectDB(info1);
+                ProjectInfo proInfo = (ProjectInfo) intent.getSerializableExtra("data");
+                savedToProjectDB(proInfo);
                 break;
 
         }

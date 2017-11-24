@@ -56,6 +56,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void initView() {
+        mBackBtn.setVisibility(View.GONE);
+
         mHomeBtn = (RadioButton) findViewById(R.id.home_btn);
         mExploreBtn = (RadioButton) findViewById(R.id.explore_btn);
         mMineBtn = (RadioButton) findViewById(R.id.mine_btn);

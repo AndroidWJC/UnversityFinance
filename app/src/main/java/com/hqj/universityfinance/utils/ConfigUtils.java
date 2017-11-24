@@ -79,6 +79,7 @@ public class ConfigUtils {
 
 
     private static Map<String, String> sProjectMap = new HashMap<>();
+
     public static Map<String, String> getProjectMap() {
         return sProjectMap;
     }
@@ -88,8 +89,18 @@ public class ConfigUtils {
         sProjectMap.putAll(projectMap);
     }
 
+    private static Map<String, Integer> sProjectIconMap = new HashMap<>();
+    public static Map<String, Integer> getProjectIconMap() {
+        return sProjectIconMap;
+    }
+
+    public static void setProjectIconMap(Map<String, Integer> projectIconMap) {
+        sProjectIconMap.clear();
+        sProjectIconMap.putAll(projectIconMap);
+    }
 
     private static String sCurrentUserId;
+
     public static String getCurrentUserId() {
         return sCurrentUserId;
     }
@@ -97,8 +108,5 @@ public class ConfigUtils {
     public static void setCurrentUserId(String sCurrentUserId) {
         ConfigUtils.sCurrentUserId = sCurrentUserId;
     }
-
-
-
 
 }

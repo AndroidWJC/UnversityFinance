@@ -85,42 +85,55 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
     private void initStaticVariable() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> titleMap = new HashMap<>();
+        Map<String, Integer> iconMap = new HashMap<>();
         String[] projectTitles = getResources().getStringArray(R.array.project_title_array);
         String[] projectIds = getResources().getStringArray(R.array.project_id_array);
+        int[] projectIcons = ConfigUtils.iconIds;
         for (int i = 0; i < projectIds.length; i++) {
             if (projectIds[i].startsWith("jxj0")) {
-                map.put(projectIds[i], projectTitles[0]);
+                titleMap.put(projectIds[i], projectTitles[0]);
+                iconMap.put(projectIds[i], projectIcons[0]);
 
             } else if (projectIds[i].startsWith("jxj1")) {
-                map.put(projectIds[i], projectTitles[1]);
+                titleMap.put(projectIds[i], projectTitles[1]);
+                iconMap.put(projectIds[i], projectIcons[1]);
 
             } else if (projectIds[i].startsWith("jxj2")) {
-                map.put(projectIds[i], projectTitles[2]);
+                titleMap.put(projectIds[i], projectTitles[2]);
+                iconMap.put(projectIds[i], projectIcons[2]);
 
             } else if (projectIds[i].startsWith("jxj3")) {
-                map.put(projectIds[i], projectTitles[3]);
+                titleMap.put(projectIds[i], projectTitles[3]);
+                iconMap.put(projectIds[i], projectIcons[3]);
 
             } else if (projectIds[i].startsWith("jxj4")) {
-                map.put(projectIds[i], projectTitles[4]);
+                titleMap.put(projectIds[i], projectTitles[4]);
+                iconMap.put(projectIds[i], projectIcons[4]);
 
             } else if (projectIds[i].startsWith("jxj5")) {
-                map.put(projectIds[i], projectTitles[5]);
+                titleMap.put(projectIds[i], projectTitles[5]);
+                iconMap.put(projectIds[i], projectIcons[5]);
 
             } else if (projectIds[i].startsWith("jxj6")) {
-                map.put(projectIds[i], projectTitles[6]);
+                titleMap.put(projectIds[i], projectTitles[6]);
+                iconMap.put(projectIds[i], projectIcons[6]);
 
             } else if (projectIds[i].startsWith("jxj7")) {
-                map.put(projectIds[i], projectTitles[7]);
+                titleMap.put(projectIds[i], projectTitles[7]);
+                iconMap.put(projectIds[i], projectIcons[7]);
 
             } else if (projectIds[i].startsWith("jxj8")) {
-                map.put(projectIds[i], projectTitles[8]);
+                titleMap.put(projectIds[i], projectTitles[8]);
+                iconMap.put(projectIds[i], projectIcons[8]);
 
             } else if (projectIds[i].startsWith("jxj9")) {
-                map.put(projectIds[i], projectTitles[9]);
+                titleMap.put(projectIds[i], projectTitles[9]);
+                iconMap.put(projectIds[i], projectIcons[9]);
             }
         }
-        ConfigUtils.setProjectMap(map);
+        ConfigUtils.setProjectMap(titleMap);
+        ConfigUtils.setProjectIconMap(iconMap);
         ConfigUtils.setCurrentUserId(Utils.getStringFromSharedPreferences(this, "account"));
     }
 
