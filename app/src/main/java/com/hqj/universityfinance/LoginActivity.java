@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         query.findObjects(this, new FindListener<StudentInfo>() {
             @Override
             public void onSuccess(List<StudentInfo> list) {
-                Log.d(TAG, "wjc: onSuccess: 3 size = "+list.size());
+                Log.d(TAG, "wjc: onSuccess: thread = "+Thread.currentThread().toString());
                 Utils.showToast(LoginActivity.this, "login succeed");
                 StudentInfo info = list.get(0);
                 if (info != null) {

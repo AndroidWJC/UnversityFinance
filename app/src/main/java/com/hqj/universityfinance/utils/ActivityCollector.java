@@ -21,7 +21,7 @@ public class ActivityCollector {
         mActivities.remove(activity);
     }
 
-    public static void finishAllActivities() {
+    public static void  finishAllActivities() {
         for (AppCompatActivity activity : mActivities) {
             activity.finish();
         }

@@ -18,7 +18,6 @@
         android:layout_toRightOf="@id/icon"
         android:text="@string/loading_text"
         android:textColor="@color/color_text"
-        android:textStyle="bold"
         android:textSize="@dimen/login_btn_text_size"
         android:layout_marginTop="6dp"
         android:layout_marginStart="15dp"

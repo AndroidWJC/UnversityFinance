@@ -25,6 +25,7 @@
     <string name="hint_password">请输入身份证后六位</string>
     <string name="forget_password">忘记密码?</string>
     <string name="title_login">登陆</string>
+    <string name="title_confirm">确定</string>
     <string name="title_action_bar_login">请登陆</string>
 
     <string name="login_failed_net_error">当前网络不太顺畅~</string>
@@ -152,5 +153,12 @@
     <string name="status_not_verify">审核中</string>
     <string name="status_pass">已通过</string>
     <string name="status_refuse">未通过</string>
+
+    <string name="hint_original_password">请输入原始密码</string>
+    <string name="hint_password_after_modify">请输入修改后的密码</string>
+    <string name="hint_password_after_modify_again">再次输入修改后的密码</string>
+    <string name="toast_not_same">修改后的密码输入不一致</string>
+    <string name="about_app_describe">一款支持在线申报和审核的应用。\n不用东奔西走盖章交表，轻轻松松完成申请。\n不用反复复印浪费纸张，节能减排从我做起。\n欧了</string>
+    <string name="app_version">高校资助 v1.0</string>
 
 </resources>

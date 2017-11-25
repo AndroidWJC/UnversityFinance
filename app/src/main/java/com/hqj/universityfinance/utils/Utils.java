@@ -45,17 +45,11 @@ public class Utils {
     }
 
     public static void showLoadingDialog(final Context context) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog == null) {
-                    mProgressDialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
-                    mProgressDialog.setCancelable(false);
-                }
-                mProgressDialog.show();
-            }
-        });
+        if (context == null) {
+            return;
+        }
 
+        showLoadingDialog(context, 0, 0);
     }
 
     public static void showLoadingDialog(final Context context, final int titleId, final int messageId) {
@@ -134,5 +128,4 @@ public class Utils {
 
         return mSP.getString(key, "");
     }
-
 }

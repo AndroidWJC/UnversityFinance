@@ -79,6 +79,7 @@
         android:id="@+id/help_tv"
         style="@style/list_item_arrow"
         android:text="@string/title_help"
+        android:visibility="gone"
         android:drawableStart="@drawable/icon_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

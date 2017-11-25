@@ -43,6 +43,8 @@
         <activity android:name=".mine.MyInfoActivity" />
         <activity android:name=".mine.MyApplyActivity" />
         <activity android:name=".mine.ApplyPreviewActivity" />
+        <activity android:name=".mine.ModifyPasswordActivity"/>
+        <activity android:name=".mine.AboutActivity"/>
 
         <service android:name=".utils.SaveDataService"/>
     </application>
