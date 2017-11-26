@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Button;
 
 import com.hqj.universityfinance.ProjectBean;
+import com.hqj.universityfinance.javabean.MessageData;
 import com.hqj.universityfinance.javabean.ProjectInfo;
 import com.hqj.universityfinance.javabean.StudentInfo;
 
@@ -58,7 +59,10 @@ public class SaveDataService extends IntentService {
                 ProjectInfo proInfo = (ProjectInfo) intent.getSerializableExtra("data");
                 savedToProjectDB(proInfo);
                 break;
-
+            case 3:
+                MessageData msgData = (MessageData) intent.getSerializableExtra("data");
+                savedToMsgDB(msgData);
+                break;
         }
     }
 
@@ -118,5 +122,9 @@ public class SaveDataService extends IntentService {
 
     private void savedToProjectDB(ProjectInfo info) {
 
+    }
+
+    private void savedToMsgDB(MessageData data) {
+        data.save(this);
     }
 }

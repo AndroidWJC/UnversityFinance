@@ -3,6 +3,7 @@ package com.hqj.universityfinance;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.hqj.universityfinance.explore.ExploreFragment;
 import com.hqj.universityfinance.home.HomeFragment;
 import com.hqj.universityfinance.mine.MineFragment;
+import com.hqj.universityfinance.mine.MyMessageActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
@@ -57,12 +59,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private void initView() {
         mBackBtn.setVisibility(View.GONE);
+        mRightBtn2.setVisibility(View.VISIBLE);
+        mRightBtn2.setOnClickListener(this);
 
         mHomeBtn = (RadioButton) findViewById(R.id.home_btn);
         mExploreBtn = (RadioButton) findViewById(R.id.explore_btn);
         mMineBtn = (RadioButton) findViewById(R.id.mine_btn);
         mHomeBtn.setOnClickListener(this);
         mExploreBtn.setOnClickListener(this);
+        mExploreBtn.setVisibility(View.GONE);
         mMineBtn.setOnClickListener(this);
         mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
@@ -83,6 +88,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.mine_btn:
                 showFragment(MINE_PAGE_TAG);
+                break;
+
+            case R.id.right_btn_2:
+                Intent intent = new Intent(this, MyMessageActivity.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -22,15 +22,16 @@
 
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/AppTheme_NoTitle">
+            android:theme="@style/AppTheme_NoTitle"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
 
         <activity android:name=".home.NoticeListActivity"/>
         <activity android:name=".home.WebViewActivity"/>
@@ -45,6 +46,8 @@
         <activity android:name=".mine.ApplyPreviewActivity" />
         <activity android:name=".mine.ModifyPasswordActivity"/>
         <activity android:name=".mine.AboutActivity"/>
+        <activity android:name=".mine.MyMessageActivity" />
+        <activity android:name=".mine.ChatActivity"/>
 
         <service android:name=".utils.SaveDataService"/>
     </application>

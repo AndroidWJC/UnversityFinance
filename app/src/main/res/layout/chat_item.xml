@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:background="@drawable/bottom_line_bg"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="90dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_centerVertical="true"
+        android:background="@android:color/white"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/chat_target"
+        android:layout_toRightOf="@id/icon"
+        android:text="@string/loading_text"
+        android:textColor="@color/color_text"
+        android:textSize="@dimen/login_btn_text_size"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/chat_summary"
+        android:text="@string/loading_text"
+        android:layout_alignParentBottom="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="15dp"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/time"
+        android:text="@string/loading_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

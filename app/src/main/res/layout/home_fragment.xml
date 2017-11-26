@@ -15,7 +15,7 @@
     <LinearLayout
         android:background="@drawable/bottom_line_bg"
         android:gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -39,7 +39,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/items_viewpager"
-        android:layout_marginTop="15dp"
+        android:paddingTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">

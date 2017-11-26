@@ -274,7 +274,7 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         applyTable.setS_id(Integer.valueOf(mCurrentUserId));
         applyTable.setZ_id(mCurrentProjectId);
         applyTable.setA_status(0);
-        applyTable.setVerify_t_id(123456789);
+        applyTable.setVerify_t_id(129061289);
         applyTable.setVerify_result(0);
 
         if (mCurrentProjectId.startsWith("jxj0")

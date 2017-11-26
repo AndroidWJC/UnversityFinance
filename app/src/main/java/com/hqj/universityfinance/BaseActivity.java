@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hqj.universityfinance.utils.ActivityCollector;
@@ -20,6 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     protected ActionBar mActionBar;
     protected TextView mActionBarTitle;
     protected TextView mActionBarRightBtn;
+    protected ImageButton mRightBtn2;
     protected ImageButton mBackBtn;
 
     @Override
@@ -34,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
             mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             mActionBarTitle = (TextView) mActionBar.getCustomView().findViewById(R.id.action_bar_title);
             mActionBarRightBtn = (TextView) mActionBar.getCustomView().findViewById(R.id.right_btn);
+            mRightBtn2 = (ImageButton) mActionBar.getCustomView().findViewById(R.id.right_btn_2);
 
             mBackBtn = (ImageButton) mActionBar.getCustomView().findViewById(R.id.back_btn);
             mBackBtn.setOnClickListener(new View.OnClickListener() {

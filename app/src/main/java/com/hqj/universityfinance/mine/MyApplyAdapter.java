@@ -79,7 +79,6 @@ public class MyApplyAdapter extends RecyclerView.Adapter<MyApplyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String status = null;
         if (mApplyList.get(position).getVerify_result() == STATUS_NOT_VERIFY) {
             holder.statusTv.setText(R.string.status_not_verify);
         } else if (mApplyList.get(position).getVerify_result() == STATUS_PASS) {

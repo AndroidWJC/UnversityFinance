@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.mine.ChatActivity;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
 import com.hqj.universityfinance.utils.Utils;
@@ -81,6 +82,9 @@ public class ProjectIntroduceActivity extends BaseActivity implements View.OnCli
         mActionBarTitle.setText(mProjectName);
         mActionBarRightBtn.setText(R.string.btn_apply);
         mActionBarRightBtn.setVisibility(View.VISIBLE);
+        mRightBtn2.setBackgroundResource(R.drawable.icon_consult);
+        mRightBtn2.setVisibility(View.VISIBLE);
+        mRightBtn2.setOnClickListener(this);
 
         if (mEnabled) {
             mActionBarRightBtn.setOnClickListener(this);
@@ -102,6 +106,12 @@ public class ProjectIntroduceActivity extends BaseActivity implements View.OnCli
                 intent.putExtra("projectId", mProjectId);
                 intent.putExtra("projectName", mProjectName);
                 startActivity(intent);
+                break;
+
+            case R.id.right_btn_2:
+                Intent intent1 = new Intent(this, ChatActivity.class);
+                intent1.putExtra("receive_id", mProjectId);
+                startActivity(intent1);
                 break;
         }
     }

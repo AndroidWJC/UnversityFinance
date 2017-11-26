@@ -9,7 +9,7 @@
 
     <string name="title_my_info">我的信息</string>
     <string name="title_my_apply">我的申请</string>
-    <string name="title_message">消息中心</string>
+    <string name="title_message">我的消息</string>
     <string name="title_help">帮助</string>
     <string name="title_setting">设置</string>
     <string name="title_modify_password">修改密码</string>
@@ -160,5 +160,7 @@
     <string name="toast_not_same">修改后的密码输入不一致</string>
     <string name="about_app_describe">一款支持在线申报和审核的应用。\n不用东奔西走盖章交表，轻轻松松完成申请。\n不用反复复印浪费纸张，节能减排从我做起。\n欧了</string>
     <string name="app_version">高校资助 v1.0</string>
+
+    <string name="btn_send">发送</string>
 
 </resources>
