@@ -1,5 +1,6 @@
-package com.hqj.universityfinance.utils;
+package com.hqj.universityfinance.utils.images;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -8,8 +9,13 @@ import android.graphics.Bitmap;
 
 public class DoubleCache implements ImageCache {
 
-    ImageCache mMemoryCache = new MemoryCache();
-    ImageCache mDiskCache = new DiskCache();
+    ImageCache mMemoryCache = null;
+    ImageCache mDiskCache = null;
+
+    public DoubleCache(Context context) {
+        mMemoryCache = new MemoryCache();
+        mDiskCache = new DiskCache(context);
+    }
 
     @Override
     public Bitmap get(String url) {

@@ -16,10 +16,11 @@ import com.bumptech.glide.Glide;
 import com.hqj.universityfinance.BannerBean;
 import com.hqj.universityfinance.R;
 import com.hqj.universityfinance.home.NoticeListActivity;
-import com.hqj.universityfinance.home.TitleOnlyItemAdapter;
 import com.hqj.universityfinance.home.WebViewActivity;
 import com.hqj.universityfinance.javabean.NewsData;
 import com.hqj.universityfinance.javabean.NoticeData;
+import com.hqj.universityfinance.utils.images.DoubleCache;
+import com.hqj.universityfinance.utils.images.MyImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
@@ -28,14 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.FindCallback;
 import cn.bmob.v3.listener.FindListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,10 +59,14 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
     private boolean mDone;
     private List<?> mDataList = new ArrayList<>();
 
+    private MyImageLoader mImageLoader;
+
     public MyAsyncTask(int type, Banner banner, Context context) {
         mType = type;
         mBanner = banner;
         mContext = context;
+        mImageLoader = MyImageLoader.getInstance();
+        mImageLoader.setImageCache(new DoubleCache(context));
     }
 
     public MyAsyncTask(int type, ViewFlipper viewFlipper, Context context) {
@@ -104,7 +106,7 @@ public class MyAsyncTask extends AsyncTask<String, Void, List<?>> {
                 mBanner.setImageLoader(new ImageLoader() {
                     @Override
                     public void displayImage(Context context, Object path, ImageView imageView) {
-                        Glide.with(context).load(path).into(imageView);
+                        mImageLoader.displayImage(imageView, String.valueOf(path));
                     }
                 });
                 mBanner.setOnBannerListener(new OnBannerListener() {

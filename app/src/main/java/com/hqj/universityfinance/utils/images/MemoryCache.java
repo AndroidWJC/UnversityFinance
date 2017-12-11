@@ -1,4 +1,4 @@
-package com.hqj.universityfinance.utils;
+package com.hqj.universityfinance.utils.images;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
