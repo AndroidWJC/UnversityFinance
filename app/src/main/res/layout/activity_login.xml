@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,20 +12,23 @@
         android:layout_width="80dp"
         android:layout_height="80dp" />
 
-    <com.hqj.universityfinance.customview.ClearEditText
+    <com.hqj.universityfinance.customview.PowerfulEditText
         android:id="@+id/login_account"
         android:hint="@string/hint_account"
-        android:singleLine="true"
+        app:styleColor="@color/royal_blue"
+        app:borderStyle="animator"
         android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hqj.universityfinance.customview.ClearEditText
+    <com.hqj.universityfinance.customview.PowerfulEditText
         android:id="@+id/login_password"
         android:inputType="textPassword"
         android:hint="@string/hint_password"
+        app:styleColor="@color/royal_blue"
+        app:borderStyle="animator"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"

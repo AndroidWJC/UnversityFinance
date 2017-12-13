@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hqj.universityfinance.customview.ClearEditText;
+import com.hqj.universityfinance.customview.PowerfulEditText;
 import com.hqj.universityfinance.javabean.StudentInfo;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.DatabaseUtils;
@@ -42,8 +43,8 @@ import okhttp3.Response;
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "LoginActivity";
-    private ClearEditText mAccountEt;
-    private ClearEditText mPasswordEt;
+    private PowerfulEditText mAccountEt;
+    private PowerfulEditText mPasswordEt;
     private TextView mForgetPasswordTv;
     private Button mLoginBtn;
 
@@ -63,8 +64,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private void initView() {
         mBackBtn.setVisibility(View.GONE);
-        mAccountEt = (ClearEditText) findViewById(R.id.login_account);
-        mPasswordEt = (ClearEditText) findViewById(R.id.login_password);
+        mAccountEt = (PowerfulEditText) findViewById(R.id.login_account);
+        mPasswordEt = (PowerfulEditText) findViewById(R.id.login_password);
         mForgetPasswordTv = (TextView) findViewById(R.id.forget_password);
         mForgetPasswordTv.setOnClickListener(this);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
@@ -103,7 +104,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
         BmobQuery<StudentInfo> query2 = new BmobQuery<>();
         query2.addWhereEqualTo("password", password);
-        Log.d(TAG, "wjc: confirmAccount: " + account + " " + password);
 
         List<BmobQuery<StudentInfo>> andQuery = new ArrayList<>();
         andQuery.add(query1);
@@ -114,25 +114,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         query.findObjects(this, new FindListener<StudentInfo>() {
             @Override
             public void onSuccess(List<StudentInfo> list) {
-                Log.d(TAG, "wjc: onSuccess: thread = "+Thread.currentThread().toString());
                 Utils.showToast(LoginActivity.this, "login succeed");
                 StudentInfo info = list.get(0);
                 if (info != null) {
-                    Log.d(TAG, "wjc: onSuccess: save begin");
                     Utils.writeToSharedPreferences(LoginActivity.this, "account", mAccountEt.getText().toString());
                     Utils.writeToSharedPreferences(LoginActivity.this, "password", mPasswordEt.getText().toString());
                     ConfigUtils.setCurrentUserId(mAccountEt.getText().toString());
                     saveDataToDatabase(info);
 
                     succeedToLogin();
-                    Log.d(TAG, "wjc: onSuccess: save end");
                 }
                 Utils.dismissLoadingDialog();
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.d(TAG, "wjc: onError: "+i+" "+s);
                 Utils.showToast(LoginActivity.this, R.string.toast_login_account_error);
                 Utils.dismissLoadingDialog();
             }
