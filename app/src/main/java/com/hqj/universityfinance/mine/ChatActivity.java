@@ -13,7 +13,6 @@ import android.widget.EditText;
 import com.hqj.universityfinance.BaseActivity;
 import com.hqj.universityfinance.R;
 import com.hqj.universityfinance.javabean.MessageData;
-import com.hqj.universityfinance.javabean.ProjectInfo;
 import com.hqj.universityfinance.javabean.TeacherInfo;
 import com.hqj.universityfinance.utils.SaveDataService;
 import com.hqj.universityfinance.utils.Utils;
@@ -174,5 +173,4 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         intent.putExtra("type", 3);
         startService(intent);
     }
-
 }

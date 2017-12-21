@@ -1,11 +1,10 @@
 package com.hqj.universityfinance.home;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -14,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.customview.PageIndicatorView;
 import com.hqj.universityfinance.utils.ConfigUtils;
 import com.hqj.universityfinance.utils.MyAsyncTask;
-import com.hqj.universityfinance.customview.PageIndicatorView;
-import com.hqj.universityfinance.R;
-import com.hqj.universityfinance.utils.Utils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -30,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by wang on 17-9-12.

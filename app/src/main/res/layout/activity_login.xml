@@ -12,49 +12,19 @@
         android:layout_width="80dp"
         android:layout_height="80dp" />
 
-    <com.hqj.universityfinance.customview.PowerfulEditText
-        android:id="@+id/login_account"
-        android:hint="@string/hint_account"
-        app:styleColor="@color/royal_blue"
-        app:borderStyle="animator"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.hqj.universityfinance.customview.PowerfulEditText
-        android:id="@+id/login_password"
-        android:inputType="textPassword"
-        android:hint="@string/hint_password"
-        app:styleColor="@color/royal_blue"
-        app:borderStyle="animator"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/tab_layout_height">
 
-    <Button
-        android:id="@+id/login_btn"
-        android:text="@string/title_login"
-        android:textSize="@dimen/login_btn_text_size"
-        android:textColor="@android:color/white"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:background="#4169e1"
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/forget_password"
-        android:text="@string/forget_password"
-        android:textColor="#4169e1"
-        android:layout_gravity="end"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

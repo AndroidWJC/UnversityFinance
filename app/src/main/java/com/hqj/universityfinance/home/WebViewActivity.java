@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.hqj.universityfinance.R;
+import com.hqj.universityfinance.customview.WebLoadingLine;
 
 
 /**
@@ -20,6 +22,7 @@ public class WebViewActivity extends Activity {
 
     private WebView mWebView;
     private ProgressDialog mDialog;
+    private WebLoadingLine mLoadingLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class WebViewActivity extends Activity {
     }
 
     private void init() {
+        mLoadingLine = (WebLoadingLine) findViewById(R.id.loading_line);
         mWebView = (WebView) findViewById(R.id.news_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -39,9 +43,12 @@ public class WebViewActivity extends Activity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    closeDialog();
+                    mLoadingLine.setVisibility(View.GONE);
+                    //closeDialog();
                 } else {
-                    openLoadingDialog(newProgress);
+                    mLoadingLine.setVisibility(View.VISIBLE);
+                    mLoadingLine.setProgress(newProgress);
+                    //openLoadingDialog(newProgress);
                 }
             }
         });

@@ -14,6 +14,7 @@ import com.hqj.universityfinance.ProjectBean;
 import com.hqj.universityfinance.javabean.MessageData;
 import com.hqj.universityfinance.javabean.ProjectInfo;
 import com.hqj.universityfinance.javabean.StudentInfo;
+import com.hqj.universityfinance.javabean.TeacherInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,14 +56,19 @@ public class SaveDataService extends IntentService {
                 StudentInfo stuInfo = (StudentInfo) intent.getSerializableExtra("data");
                 savedToStudentDB(stuInfo);
                 break;
+
             case 2:
                 ProjectInfo proInfo = (ProjectInfo) intent.getSerializableExtra("data");
                 savedToProjectDB(proInfo);
                 break;
+
             case 3:
                 MessageData msgData = (MessageData) intent.getSerializableExtra("data");
                 savedToMsgDB(msgData);
                 break;
+
+            case 4:
+                TeacherInfo teacherInfo = (TeacherInfo) intent.getSerializableExtra("data");
         }
     }
 

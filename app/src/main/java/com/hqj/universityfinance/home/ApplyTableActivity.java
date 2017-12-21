@@ -1,5 +1,7 @@
 package com.hqj.universityfinance.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -304,15 +306,19 @@ public class ApplyTableActivity extends BaseActivity implements AdapterView.OnIt
         applyTable.save(this, new SaveListener() {
             @Override
             public void onSuccess() {
-                Utils.dismissLoadingDialog();
+                Utils.dismissLoadingDialog(true, new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        finish();
+                    }
+                });
                 Utils.showToast(ApplyTableActivity.this, R.string.title_apply_table_succeed);
-                finish();
             }
 
             @Override
             public void onFailure(int i, String s) {
                 Utils.showToast(ApplyTableActivity.this, R.string.login_failed_net_error);
-                Utils.dismissLoadingDialog();
+                Utils.dismissLoadingDialog(false, null);
             }
         });
     }

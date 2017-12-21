@@ -30,6 +30,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile files('libs/BmobSDK_V3.4.5_1111.jar')
+    compile 'com.android.support:design:25.3.1'
     //compile files('libs/Bmob_Push_V0.6beta_20150408.jar')
 
     //compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'

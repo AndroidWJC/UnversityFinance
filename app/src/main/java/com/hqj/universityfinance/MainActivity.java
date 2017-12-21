@@ -1,18 +1,13 @@
 package com.hqj.universityfinance;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.hqj.universityfinance.explore.ExploreFragment;
 import com.hqj.universityfinance.home.HomeFragment;
@@ -52,7 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         textColor = getResources().getColor(R.color.color_text);
         focusTextColor = getResources().getColor(R.color.focus_color_text);
-        mFragmentManager = getFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
 
         showFragment(HOME_PAGE_TAG);
     }

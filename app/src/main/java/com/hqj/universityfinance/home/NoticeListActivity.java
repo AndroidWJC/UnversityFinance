@@ -1,5 +1,7 @@
 package com.hqj.universityfinance.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;

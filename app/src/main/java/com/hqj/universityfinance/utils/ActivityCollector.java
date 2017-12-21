@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class ActivityCollector {
-
+    
     public static List<AppCompatActivity> mActivities = new ArrayList<>();
 
     public static void addActivity(AppCompatActivity activity) {
